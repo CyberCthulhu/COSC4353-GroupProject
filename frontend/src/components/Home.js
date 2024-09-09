@@ -1,5 +1,6 @@
-import React from 'react';
-import { Typography, Button, Card, CardContent, Grid2 } from '@mui/material';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { Typography, Button, Card, CardContent, Grid2 } from "@mui/material";
 
 function Home() {
   return (
@@ -8,7 +9,12 @@ function Home() {
         <Typography variant="h4" gutterBottom>
           Welcome to Helping Hands, Houston's Volunteer Network
         </Typography>
-        <Button variant="contained" color="primary">
+        <Button
+          variant="contained"
+          color="primary"
+          component={Link}
+          to="/signup"
+        >
           Sign up
         </Button>
       </Grid2>
@@ -19,7 +25,8 @@ function Home() {
               About Us
             </Typography>
             <Typography variant="body1">
-              Helping Hands is a volunteer network that connects volunteers with local non-profits in need of help.
+              Helping Hands is a volunteer network that connects volunteers with
+              local non-profits in need of help.
             </Typography>
           </CardContent>
         </Card>

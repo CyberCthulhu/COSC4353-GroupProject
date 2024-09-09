@@ -1,11 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Container, Button } from '@mui/material';
+import { AppBar, Toolbar, Typography, Container, Button, } from '@mui/material';
 
 
 import Home from './components/Home';
 import Login from './components/Login';
 import VolunteerEvents from './components/VolunteerEvents';
+import SignUp from './components/SignUp';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Button color="inherit" component={Link} to="/volunteer">Volunteer Events</Button>
           <Button color="inherit" component={Link} to="/login">Login</Button>
           
+          
         </Toolbar>
       </AppBar>
 
@@ -29,6 +31,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/volunteer" element={<VolunteerEvents />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </Container>
     </Router>
