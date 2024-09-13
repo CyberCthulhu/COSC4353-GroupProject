@@ -44,6 +44,12 @@ const events = [
     date: 'September 15, 2024',
     location: 'Santa Monica Beach',
     description: 'Help us clean up the beach and make it a cleaner place for everyone.',
+  },
+  {
+    id: 7,
+    title: 'Food Bank Volunteering',
+    date: 'September 22, 2024',
+    location: 'Downtown Community Food Bank',
   }
 ];
 
