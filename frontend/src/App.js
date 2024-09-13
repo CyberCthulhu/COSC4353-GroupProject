@@ -7,6 +7,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import VolunteerEvents from './components/VolunteerEvents';
 import SignUp from './components/SignUp';
+import AdminLogin from './components/AdminBoard';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/volunteer" element={<VolunteerEvents />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/admin" element={<AdminLogin />} />
         </Routes>
       </Container>
     </Router>
