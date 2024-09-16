@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { TextField, MenuItem, FormControl, InputLabel, Select, OutlinedInput, Checkbox, ListItemText, Button, TextareaAutosize, Grid } from '@mui/material';
-import { LocalizationProvider } from '@mui/x-date-pickers';
+import { TextField, MenuItem, FormControl, InputLabel, Select, OutlinedInput, Checkbox, ListItemText, Button, TextareaAutosize } from '@mui/material';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
@@ -12,8 +12,6 @@ const states = [
 
 const skillsList = ['JavaScript', 'Python', 'C++', 'React', 'SQL'];
 
-const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-
 const UserProfile = () => {
   const [form, setForm] = useState({
     fullName: '',
@@ -24,19 +22,10 @@ const UserProfile = () => {
     zipCode: '',
     skills: [],
     preferences: '',
-    availability: {
-      Monday: { available: false, startTime: '', endTime: '' },
-      Tuesday: { available: false, startTime: '', endTime: '' },
-      Wednesday: { available: false, startTime: '', endTime: '' },
-      Thursday: { available: false, startTime: '', endTime: '' },
-      Friday: { available: false, startTime: '', endTime: '' },
-      Saturday: { available: false, startTime: '', endTime: '' },
-      Sunday: { available: false, startTime: '', endTime: '' },
-    }
+    availability: []
   });
 
   const [errors, setErrors] = useState({});
-
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -46,17 +35,8 @@ const UserProfile = () => {
     setForm({ ...form, skills: typeof value === 'string' ? value.split(',') : value });
   };
 
-  const handleAvailabilityChange = (day, field, value) => {
-    setForm(prevForm => ({
-      ...prevForm,
-      availability: {
-        ...prevForm.availability,
-        [day]: {
-          ...prevForm.availability[day],
-          [field]: value
-        }
-      }
-    }));
+  const handleAvailabilityChange = (newDate) => {
+    setForm((prevForm) => ({ ...prevForm, availability: [...prevForm.availability, newDate] }));
   };
 
   const validate = () => {
@@ -67,11 +47,10 @@ const UserProfile = () => {
     tempErrors.state = form.state ? '' : 'State is required';
     tempErrors.zipCode = form.zipCode && form.zipCode.length >= 5 ? '' : 'At least 5 characters for Zip Code';
     tempErrors.skills = form.skills.length > 0 ? '' : 'At least one skill is required';
-    const availableDays = Object.values(form.availability).some(day => day.available);
-    tempErrors.availability = availableDays ? '' : 'At least one day of availability is required';
+    tempErrors.availability = form.availability.length > 0 ? '' : 'At least one date for Availability is required';
 
     setErrors(tempErrors);
-    return Object.values(tempErrors).every(x => x === '');
+    return Object.values(tempErrors).every((x) => x === '');
   };
 
   const handleSubmit = (e) => {
@@ -184,52 +163,27 @@ const UserProfile = () => {
         style={{ width: '100%', marginTop: '16px', padding: '8px' }}
       />
 
-      <h3>Availability (Select days and time)</h3>
-      <Grid container spacing={2}>
-        {daysOfWeek.map((day) => (
-          <Grid item xs={12} md={6} key={day}>
-            <FormControl fullWidth>
-              <InputLabel>{day}</InputLabel>
-              <Checkbox
-                checked={form.availability[day].available}
-                onChange={(e) => handleAvailabilityChange(day, 'available', e.target.checked)}
-              />
-              {form.availability[day].available && (
-                <div>
-                  <TextField
-                    label="Start Time"
-                    type="time"
-                    value={form.availability[day].startTime}
-                    onChange={(e) => handleAvailabilityChange(day, 'startTime', e.target.value)}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    inputProps={{
-                      step: 300, // 5 min
-                    }}
-                    fullWidth
-                    required
-                  />
-                  <TextField
-                    label="End Time"
-                    type="time"
-                    value={form.availability[day].endTime}
-                    onChange={(e) => handleAvailabilityChange(day, 'endTime', e.target.value)}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    inputProps={{
-                      step: 300, // 5 min
-                    }}
-                    fullWidth
-                    required
-                  />
-                </div>
-              )}
-            </FormControl>
-          </Grid>
-        ))}
-      </Grid>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DatePicker
+          label="Availability"
+          value={null}  // Reset after selection
+          onChange={(newDate) => handleAvailabilityChange(dayjs(newDate).format('YYYY-MM-DD'))}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              fullWidth
+              required
+              error={!!errors.availability}
+              helperText={errors.availability}
+            />
+          )}
+        />
+        <ul>
+          {form.availability.map((date, index) => (
+            <li key={index}>{date}</li>
+          ))}
+        </ul>
+      </LocalizationProvider>
 
       <Button type="submit" variant="contained" color="primary" fullWidth>
         Submit
