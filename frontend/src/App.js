@@ -8,6 +8,7 @@ import Login from './components/Login';
 import VolunteerEvents from './components/VolunteerEvents';
 import SignUp from './components/SignUp';
 import AdminLogin from './components/AdminBoard';
+import EventManagement from './components/EventManagement';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="/volunteer" element={<VolunteerEvents />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/event-management" element={<EventManagement />} />
         </Routes>
       </Container>
     </Router>
