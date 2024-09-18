@@ -9,6 +9,7 @@ import VolunteerEvents from './components/VolunteerEvents';
 import SignUp from './components/SignUp';
 import AdminLogin from './components/AdminBoard';
 import EventManagement from './components/EventManagement';
+import UserProfile from './components/UserProfileManagement';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/event-management" element={<EventManagement />} />
+          <Route path="/profile" element={<UserProfile />} />
         </Routes>
       </Container>
     </Router>
