@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Container, Button, } from '@mui/material';
+import { AppBar, Toolbar, Typography, Container, Button, Avatar, Menu, MenuItem, IconButton,} from '@mui/material';
 
 
 import Home from './components/Home';
@@ -12,8 +12,21 @@ import EventManagement from './components/EventManagement';
 import UserProfile from './components/UserProfileManagement';
 import AdminBoard from './components/AdminBoard';
 import AdminSignUp from './components/AdminSignUp';
+import VolunteerHistory from './components/VolunteerHistory';
+
 
 function App() {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+
   return (
     <Router>
 
@@ -27,6 +40,22 @@ function App() {
           <Button color="inherit" component={Link} to="/login">Login</Button>
 
 
+          
+          <IconButton onClick={handleClick} color='inherit'>
+            <Avatar src="/broken-image.jpg" />
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+            transformOrigin={{horizontal: 'right',vertical: 'top'}}
+            anchorOrigin={{horizontal:'right',vertical: 'bottom'}}
+          >
+            <MenuItem> Notifications </MenuItem>
+            <MenuItem component={Link} to ='/volunteer-history'> History </MenuItem>
+            <MenuItem onClick={handleClose}> Logout </MenuItem>
+          </Menu>
+          
         </Toolbar>
       </AppBar>
 
@@ -42,6 +71,7 @@ function App() {
           <Route path="/event-management" element={<EventManagement />} />
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/admin-signup" element={<AdminSignUp />} />
+          <Route path="/volunteer-history" element={<VolunteerHistory />} />
         </Routes>
       </Container>
     </Router>
