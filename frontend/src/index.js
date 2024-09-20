@@ -7,6 +7,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 
 const theme = createTheme({
   palette: {
+    mode:'dark',
     primary: {
       main: '#1976d2',  
     },
@@ -18,7 +19,7 @@ const theme = createTheme({
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
-    <CssBaseline /> {/* Normalize CSS */}
+    <CssBaseline /> 
     <App />
   </ThemeProvider>,
   document.getElementById('root')
