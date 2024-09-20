@@ -11,6 +11,7 @@ import AdminLogin from './components/AdminLogin';
 import EventManagement from './components/EventManagement';
 import UserProfile from './components/UserProfileManagement';
 import AdminBoard from './components/AdminBoard';
+import AdminSignUp from './components/AdminSignUp';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
           <Route path="/admin" element={<AdminBoard />} />
           <Route path="/event-management" element={<EventManagement />} />
           <Route path="/profile" element={<UserProfile />} />
+          <Route path="/admin-signup" element={<AdminSignUp />} />
         </Routes>
       </Container>
     </Router>
