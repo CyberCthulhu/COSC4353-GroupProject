@@ -1,75 +1,95 @@
-import React, { useState } from 'react';
-import { TextField, MenuItem, FormControl, InputLabel, Select, OutlinedInput, Checkbox, ListItemText, Button, TextareaAutosize } from '@mui/material';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
+import React, { useState } from "react";
+import {
+  TextField,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
+  OutlinedInput,
+  Checkbox,
+  ListItemText,
+  Button,
+  TextareaAutosize,
+} from "@mui/material";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 const states = [
-  { code: 'AL', name: 'Alabama' },
-  { code: 'AK', name: 'Alaska' },
-  { code: 'AZ', name: 'Arizona' },
-  { code: 'AR', name: 'Arkansas' },
-  { code: 'CA', name: 'California' },
-  { code: 'CO', name: 'Colorado' },
-  { code: 'CT', name: 'Connecticut' },
-  { code: 'DE', name: 'Delaware' },
-  { code: 'FL', name: 'Florida' },
-  { code: 'GA', name: 'Georgia' },
-  { code: 'HI', name: 'Hawaii' },
-  { code: 'ID', name: 'Idaho' },
-  { code: 'IL', name: 'Illinois' },
-  { code: 'IN', name: 'Indiana' },
-  { code: 'IA', name: 'Iowa' },
-  { code: 'KS', name: 'Kansas' },
-  { code: 'KY', name: 'Kentucky' },
-  { code: 'LA', name: 'Louisiana' },
-  { code: 'ME', name: 'Maine' },
-  { code: 'MD', name: 'Maryland' },
-  { code: 'MA', name: 'Massachusetts' },
-  { code: 'MI', name: 'Michigan' },
-  { code: 'MN', name: 'Minnesota' },
-  { code: 'MS', name: 'Mississippi' },
-  { code: 'MO', name: 'Missouri' },
-  { code: 'MT', name: 'Montana' },
-  { code: 'NE', name: 'Nebraska' },
-  { code: 'NV', name: 'Nevada' },
-  { code: 'NH', name: 'New Hampshire' },
-  { code: 'NJ', name: 'New Jersey' },
-  { code: 'NM', name: 'New Mexico' },
-  { code: 'NY', name: 'New York' },
-  { code: 'NC', name: 'North Carolina' },
-  { code: 'ND', name: 'North Dakota' },
-  { code: 'OH', name: 'Ohio' },
-  { code: 'OK', name: 'Oklahoma' },
-  { code: 'OR', name: 'Oregon' },
-  { code: 'PA', name: 'Pennsylvania' },
-  { code: 'RI', name: 'Rhode Island' },
-  { code: 'SC', name: 'South Carolina' },
-  { code: 'SD', name: 'South Dakota' },
-  { code: 'TN', name: 'Tennessee' },
-  { code: 'TX', name: 'Texas' },
-  { code: 'UT', name: 'Utah' },
-  { code: 'VT', name: 'Vermont' },
-  { code: 'VA', name: 'Virginia' },
-  { code: 'WA', name: 'Washington' },
-  { code: 'WV', name: 'West Virginia' },
-  { code: 'WI', name: 'Wisconsin' },
-  { code: 'WY', name: 'Wyoming' }
+  { code: "AL", name: "Alabama" },
+  { code: "AK", name: "Alaska" },
+  { code: "AZ", name: "Arizona" },
+  { code: "AR", name: "Arkansas" },
+  { code: "CA", name: "California" },
+  { code: "CO", name: "Colorado" },
+  { code: "CT", name: "Connecticut" },
+  { code: "DE", name: "Delaware" },
+  { code: "FL", name: "Florida" },
+  { code: "GA", name: "Georgia" },
+  { code: "HI", name: "Hawaii" },
+  { code: "ID", name: "Idaho" },
+  { code: "IL", name: "Illinois" },
+  { code: "IN", name: "Indiana" },
+  { code: "IA", name: "Iowa" },
+  { code: "KS", name: "Kansas" },
+  { code: "KY", name: "Kentucky" },
+  { code: "LA", name: "Louisiana" },
+  { code: "ME", name: "Maine" },
+  { code: "MD", name: "Maryland" },
+  { code: "MA", name: "Massachusetts" },
+  { code: "MI", name: "Michigan" },
+  { code: "MN", name: "Minnesota" },
+  { code: "MS", name: "Mississippi" },
+  { code: "MO", name: "Missouri" },
+  { code: "MT", name: "Montana" },
+  { code: "NE", name: "Nebraska" },
+  { code: "NV", name: "Nevada" },
+  { code: "NH", name: "New Hampshire" },
+  { code: "NJ", name: "New Jersey" },
+  { code: "NM", name: "New Mexico" },
+  { code: "NY", name: "New York" },
+  { code: "NC", name: "North Carolina" },
+  { code: "ND", name: "North Dakota" },
+  { code: "OH", name: "Ohio" },
+  { code: "OK", name: "Oklahoma" },
+  { code: "OR", name: "Oregon" },
+  { code: "PA", name: "Pennsylvania" },
+  { code: "RI", name: "Rhode Island" },
+  { code: "SC", name: "South Carolina" },
+  { code: "SD", name: "South Dakota" },
+  { code: "TN", name: "Tennessee" },
+  { code: "TX", name: "Texas" },
+  { code: "UT", name: "Utah" },
+  { code: "VT", name: "Vermont" },
+  { code: "VA", name: "Virginia" },
+  { code: "WA", name: "Washington" },
+  { code: "WV", name: "West Virginia" },
+  { code: "WI", name: "Wisconsin" },
+  { code: "WY", name: "Wyoming" },
 ];
 
-const skillsList = ['JavaScript', 'Python', 'C++', 'React', 'SQL'];
+const skillsList = [
+  "Communication",
+  "Teamwork",
+  "Problem-solving",
+  "Organization",
+  "Leadership",
+  "Empathy",
+  "Fundraising",
+  "Networking",
+];
 
 const UserProfile = () => {
   const [form, setForm] = useState({
-    fullName: '',
-    address1: '',
-    address2: '',
-    city: '',
-    state: '',
-    zipCode: '',
+    fullName: "",
+    address1: "",
+    address2: "",
+    city: "",
+    state: "",
+    zipCode: "",
     skills: [],
-    preferences: '',
-    availability: []
+    preferences: "",
+    availability: [],
   });
 
   const [errors, setErrors] = useState({});
@@ -78,32 +98,47 @@ const UserProfile = () => {
   };
 
   const handleSkillsChange = (event) => {
-    const { target: { value } } = event;
-    setForm({ ...form, skills: typeof value === 'string' ? value.split(',') : value });
+    const {
+      target: { value },
+    } = event;
+    setForm({
+      ...form,
+      skills: typeof value === "string" ? value.split(",") : value,
+    });
   };
 
   const handleAvailabilityChange = (newDate) => {
-    setForm((prevForm) => ({ ...prevForm, availability: [...prevForm.availability, newDate] }));
+    setForm((prevForm) => ({
+      ...prevForm,
+      availability: [...prevForm.availability, newDate],
+    }));
   };
 
   const validate = () => {
     let tempErrors = {};
-    tempErrors.fullName = form.fullName ? '' : 'Full Name is required';
-    tempErrors.address1 = form.address1 ? '' : 'Address 1 is required';
-    tempErrors.city = form.city ? '' : 'City is required';
-    tempErrors.state = form.state ? '' : 'State is required';
-    tempErrors.zipCode = form.zipCode && form.zipCode.length >= 5 ? '' : 'At least 5 characters for Zip Code';
-    tempErrors.skills = form.skills.length > 0 ? '' : 'At least one skill is required';
-    tempErrors.availability = form.availability.length > 0 ? '' : 'At least one date for Availability is required';
+    tempErrors.fullName = form.fullName ? "" : "Full Name is required";
+    tempErrors.address1 = form.address1 ? "" : "Address 1 is required";
+    tempErrors.city = form.city ? "" : "City is required";
+    tempErrors.state = form.state ? "" : "State is required";
+    tempErrors.zipCode =
+      form.zipCode && form.zipCode.length >= 5
+        ? ""
+        : "At least 5 characters for Zip Code";
+    tempErrors.skills =
+      form.skills.length > 0 ? "" : "At least one skill is required";
+    tempErrors.availability =
+      form.availability.length > 0
+        ? ""
+        : "At least one date for Availability is required";
 
     setErrors(tempErrors);
-    return Object.values(tempErrors).every((x) => x === '');
+    return Object.values(tempErrors).every((x) => x === "");
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      console.log('Form data:', form);
+      console.log("Form data:", form);
       // Submit form logic here
     }
   };
@@ -190,7 +225,7 @@ const UserProfile = () => {
           value={form.skills}
           onChange={handleSkillsChange}
           input={<OutlinedInput label="Skills" />}
-          renderValue={(selected) => selected.join(', ')}
+          renderValue={(selected) => selected.join(", ")}
         >
           {skillsList.map((skill) => (
             <MenuItem key={skill} value={skill}>
@@ -207,14 +242,16 @@ const UserProfile = () => {
         name="preferences"
         value={form.preferences}
         onChange={handleChange}
-        style={{ width: '100%', marginTop: '16px', padding: '8px' }}
+        style={{ width: "100%", marginTop: "16px", padding: "8px" }}
       />
 
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
           label="Availability"
-          value={null}  // Reset after selection
-          onChange={(newDate) => handleAvailabilityChange(dayjs(newDate).format('YYYY-MM-DD'))}
+          value={null} // Reset after selection
+          onChange={(newDate) =>
+            handleAvailabilityChange(dayjs(newDate).format("YYYY-MM-DD"))
+          }
           renderInput={(params) => (
             <TextField
               {...params}
