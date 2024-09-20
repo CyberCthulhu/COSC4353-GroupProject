@@ -10,16 +10,11 @@ import SignUp from './components/SignUp';
 import AdminLogin from './components/AdminBoard';
 import EventManagement from './components/EventManagement';
 import UserProfile from './components/UserProfileManagement';
+import VolunteerHistory from './components/VolunteerHistory';
 
 
 function App() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const user= {
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    avatar: 'https://randomuser.me/api',
-  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -43,7 +38,7 @@ function App() {
           <Button color="inherit" component={Link} to="/login">Login</Button>
           
           <IconButton onClick={handleClick} color='inherit'>
-            <Avatar src={user.avatar} alt={user.name} />
+            <Avatar src="/broken-image.jpg" />
           </IconButton>
           <Menu
             anchorEl={anchorEl}
@@ -53,7 +48,7 @@ function App() {
             anchorOrigin={{horizontal:'right',vertical: 'bottom'}}
           >
             <MenuItem> Notifications </MenuItem>
-            <MenuItem> History </MenuItem>
+            <MenuItem component={Link} to ='/volunteer-history'> History </MenuItem>
             <MenuItem onClick={handleClose}> Logout </MenuItem>
           </Menu>
           
@@ -70,6 +65,7 @@ function App() {
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/event-management" element={<EventManagement />} />
           <Route path="/profile" element={<UserProfile />} />
+          <Route path="/volunteer-history" element={<VolunteerHistory />} />
         </Routes>
       </Container>
     </Router>
