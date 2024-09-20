@@ -13,6 +13,7 @@ import UserProfile from './components/UserProfileManagement';
 import AdminBoard from './components/AdminBoard';
 import AdminSignUp from './components/AdminSignUp';
 import VolunteerHistory from './components/VolunteerHistory';
+import VolunteerMatchingForm from './components/VolunteerMatchingForm';
 
 
 function App() {
@@ -72,6 +73,7 @@ function App() {
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/admin-signup" element={<AdminSignUp />} />
           <Route path="/volunteer-history" element={<VolunteerHistory />} />
+          <Route path="/volunteer-matching" element={<VolunteerMatchingForm />} />
         </Routes>
       </Container>
     </Router>
