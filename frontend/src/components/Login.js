@@ -24,6 +24,9 @@ function Login() {
           <Typography> New user? <Link href='/signup' color="inherit"> Sign Up
           </Link>
           </Typography>
+          <Typography> Are you an administrator? <Link href='/admin-login' color="inherit"> Admin Login
+          </Link>
+          </Typography>
         </Box>
 
 
