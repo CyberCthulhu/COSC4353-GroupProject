@@ -7,7 +7,7 @@ function Home() {
     <Grid2 container spacing={3}>
       <Grid2 item xs={12}>
         <Typography variant="h4" gutterBottom>
-          Welcome to Helping Hands, Houston's Volunteer Network
+          Welcome to Helping Hands, The United States Volunteer Network
         </Typography>
         <Button
           variant="contained"
