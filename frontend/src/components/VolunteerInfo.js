@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardContent, Typography, Grid, Button } from "@mui/material";
+import { Card, CardContent, Typography, Grid2, Button } from "@mui/material";
 import axios from "axios";
 
 function VolunteerInfo() {
