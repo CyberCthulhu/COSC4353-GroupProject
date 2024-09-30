@@ -41,6 +41,14 @@ app.get("/events", (req, res) => {
       location: "City Park",
       description: "Join us in planting trees to help make our city greener.",
     },
+    {
+      id: 4,
+      title: "Animal Shelter Volunteering",
+      date: "October 5, 2024",
+      location: "Local Animal Shelter",
+      description:
+        "Spend time with animals and help take care of them at the local animal shelter.",
+    }
   ];
   res.json(events);
 });
