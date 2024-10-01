@@ -8,7 +8,7 @@ function VolunteerInfo() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/events");
+        const response = await axios.get("http://localhost:4000/events");
         setEvents(response.data);
       } catch (error) {
         console.error("Error fetching events:", error);
