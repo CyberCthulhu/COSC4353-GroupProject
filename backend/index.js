@@ -6,11 +6,6 @@ const PORT = 4000;
 app.use(cors());
 app.use(express.json());
 
-
-
-
-// Data
-
 const users = [
   {
     id: 1,
@@ -31,10 +26,11 @@ const users = [
     password: "password789",
   },
 ];
-const userParticipation= {
-  1: [1, 2,3,4],
-  2: [3],
-  3: [4],
+
+const userEventParticipation = {
+  1: [1, 2, 3, 4], 
+  2: [3],           
+  3: [4],           
 };
 
 const events = [
@@ -68,23 +64,12 @@ const events = [
     location: "Local Animal Shelter",
     description:
       "Spend time with animals and help take care of them at the local animal shelter.",
-  }
+  },
 ];
-
-
-
-
-
-
-
-
-//APIs
-
 
 app.get("/", (req, res) => {
   res.send("Backend is running");
 });
-
 
 app.post("/signup", (req, res) => {
   const { name, email, password } = req.body;
@@ -98,12 +83,16 @@ app.get("/events", (req, res) => {
 
 app.get("/history/:userId", (req, res) => {
   const userId = req.params.userId;
-  if (!userParticipation[userId]) {
-    return res.status(404).json({ message: "No events have been participated in" });
+
+  if (!userEventParticipation[userId]) {
+    return res.status(404).json({ message: "User not found or no event participation" });
   }
-  const eventIds = userParticipation[userId];
-  const userEvents = events.filter((event) => eventIds.includes(event.id));
-  res.json(userEvents);
+
+  const eventIds = userEventParticipation[userId];
+
+  const userParticipatedEvents = events.filter((event) => eventIds.includes(event.id));
+
+  res.json(userParticipatedEvents);
 });
 
 app.listen(PORT, () => {
