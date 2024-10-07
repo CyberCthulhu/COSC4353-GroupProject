@@ -1,4 +1,4 @@
-const users = require("../models/userModel");
+const users = require("../models/volunteerModel");
 
 exports.signup = (req, res) => {
   const { name, email, password } = req.body;

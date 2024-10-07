@@ -1,4 +1,4 @@
-const users = [
+const volunteers = [
   {
     id: 1,
     name: "John Doe",
@@ -49,10 +49,10 @@ const users = [
   },
 ];
 
-const createUser = (newUser) => {
-  const user = { ...newUser, id: users.length + 1 };
-  users.push(user);
-  return user;
+const createVolunteer = (newVolunteer) => {
+  const volunteer = { ...newVolunteer, id: volunteers.length + 1 };
+  volunteers.push(volunteer);
+  return volunteer;
 };
 
-  module.exports = {users, createUser};
+module.exports = {volunteers, createVolunteer};

@@ -13,13 +13,21 @@ exports.getEventById = (req, res) => {
   res.json(event);
 };
 
- exports.createNewEvent = (req, res) => {
-  const { title, requiredSkills, location, description, date, zipCode } = req.body;
+exports.createNewEvent = (req, res) => {
+  const { title, requiredSkills, location, description, date, zipCode } =
+    req.body;
 
   if (!title || !requiredSkills || !location || !date || !zipCode) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
-  const newEvent = createEvent({ title, requiredSkills, location, description, date, zipCode });
+  const newEvent = createEvent({
+    title,
+    requiredSkills,
+    location,
+    description,
+    date,
+    zipCode,
+  });
   return res.status(201).json(newEvent);
 };

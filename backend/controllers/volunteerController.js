@@ -1,6 +1,6 @@
-const volunteers = require("../models/userModel");
+const volunteers = require("../models/volunteerModel");
 
-exports.getVounteers = (req, res) => {
+exports.getVolunteers = (req, res) => {
   res.json(volunteers);
 };
 
