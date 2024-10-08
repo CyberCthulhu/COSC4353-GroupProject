@@ -1,11 +1,11 @@
-const events = require("../models/eventModel");
+const {events, createEvent} = require("../models/eventModel");
 
 exports.getEvents = (req, res) => {
   res.json(events);
 };
 
 exports.getEventById = (req, res) => {
-  const eventId = req.params.eventId;
+  const eventId = Number(req.params.eventId);
   const event = events.find((event) => event.id === eventId);
   if (!event) {
     return res.status(404).json({ message: "Event not found" });

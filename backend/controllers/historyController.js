@@ -1,5 +1,5 @@
 const userParticipation = require("../models/userParticipationModel");
-const events = require("../models/eventModel");
+const {events} = require("../models/eventModel");
 
 exports.getHistory = (req, res) => {
   const userId = req.params.userId;

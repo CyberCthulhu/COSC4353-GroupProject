@@ -4,7 +4,7 @@ const { createNewVolunteer, getVolunteers, getVolunteerById } = require("../cont
 
 
 router.post("/volunteers", createNewVolunteer);
-router.get("/volunteers/:volunteerID", getVolunteerById);
+router.get("/volunteers/:volunteerId", getVolunteerById);
 
 router.get("/volunteers", getVolunteers);
 
