@@ -1,12 +1,15 @@
-const volunteers = require("../models/volunteerModel");
+const {volunteers, createVolunteer} = require("../models/volunteerModel");
 
 exports.getVolunteers = (req, res) => {
   res.json(volunteers);
 };
 
 exports.getVolunteerById = (req, res) => {
-    const volunteerId = req.params.volunteerId;
+    const volunteerId = Number(req.params.volunteerId);
+    console.log('Volunteer ID from request:', volunteerId);
+    console.log('Volunteers:', volunteers);
     const volunteer = volunteers.find((volunteer) => volunteer.id === volunteerId);
+    
     if (!volunteer) {
         return res.status(404).json({ message: "Volunteer not found" });
     }
