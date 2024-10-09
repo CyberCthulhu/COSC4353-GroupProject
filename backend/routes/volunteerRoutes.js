@@ -8,4 +8,4 @@ router.get("/volunteers/:volunteerId", getVolunteerById);
 
 router.get("/volunteers", getVolunteers);
 
-module.exports = router;
+module.exports = router

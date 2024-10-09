@@ -6,8 +6,7 @@ exports.getVolunteers = (req, res) => {
 
 exports.getVolunteerById = (req, res) => {
     const volunteerId = Number(req.params.volunteerId);
-    console.log('Volunteer ID from request:', volunteerId);
-    console.log('Volunteers:', volunteers);
+  
     const volunteer = volunteers.find((volunteer) => volunteer.id === volunteerId);
     
     if (!volunteer) {

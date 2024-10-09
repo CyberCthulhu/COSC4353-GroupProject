@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import axios from "axios";
 import {
   Container,
   FormControl,
@@ -93,9 +94,17 @@ const events = [
 ];
 
 function VolunteerMatchingForm() {
+  const [volunteers, setVolunteers] = useState([]);
   const [selectedVolunteer, setSelectedVolunteer] = useState("");
   const [matchedEvents, setMatchedEvents] = useState([]);
   const [selectedEvents, setSelectedEvents] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:4000/api/volunteers").then((response) => {
+      setVolunteers(response.data);
+    });
+  }, []);
+
 
   const handleVolunteerChange = (event) => {
     const volunteerId = event.target.value;
