@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import {
   TextField,
   MenuItem,
@@ -14,7 +15,6 @@ import {
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-import axios from "axios";
 
 const states = [
   { code: "AL", name: "Alabama" },
@@ -94,7 +94,6 @@ const UserProfile = () => {
   });
 
   const [errors, setErrors] = useState({});
-
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -112,7 +111,7 @@ const UserProfile = () => {
   const handleAvailabilityChange = (newDate) => {
     setForm((prevForm) => ({
       ...prevForm,
-      availability: [...prevForm.availability, dayjs(newDate).format("YYYY-MM-DD")],
+      availability: [...prevForm.availability, newDate],
     }));
   };
 
@@ -140,19 +139,18 @@ const UserProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      const formData = {
-        name: form.fullName,
-        address1: form.address1,
-        address2: form.address2,
-        city: form.city,
-        state: form.state,
-        zipcode: form.zipCode,
-        skills: form.skills,
-        preferences: form.preferences,
-        availability: form.availability,
-      };
-
       try {
+        const formData = {
+          name: form.fullName,
+          address1: form.address1,
+          address2: form.address2,
+          city: form.city,
+          state: form.state,
+          zipcode: form.zipCode,
+          skills: form.skills,
+          preferences: form.preferences,
+          availability: form.availability,
+        };
         const response = await axios.post("/user-profile", formData);
         console.log("Form submitted successfully:", response.data);
       } catch (error) {
@@ -267,7 +265,9 @@ const UserProfile = () => {
         <DatePicker
           label="Availability"
           value={null} // Reset after selection
-          onChange={handleAvailabilityChange}
+          onChange={(newDate) =>
+            handleAvailabilityChange(dayjs(newDate).format("YYYY-MM-DD"))
+          }
           renderInput={(params) => (
             <TextField
               {...params}
@@ -278,14 +278,9 @@ const UserProfile = () => {
             />
           )}
         />
-        <ul>
-          {form.availability.map((date, index) => (
-            <li key={index}>{date}</li>
-          ))}
-        </ul>
       </LocalizationProvider>
 
-      <Button type="submit" variant="contained" color="primary" fullWidth>
+      <Button type="submit" variant="contained" color="primary">
         Submit
       </Button>
     </form>
