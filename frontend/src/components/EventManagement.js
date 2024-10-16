@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { 
   TextField, 
   TextareaAutosize, 
@@ -40,17 +41,32 @@ const EventManagement = () => {
     );
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
     const eventData = {
-      eventName,
-      eventDescription,
+      title: eventName,
+      description: eventDescription,
       location,
       requiredSkills,
       urgency,
-      eventDate,
+      date: eventDate,
+      zipCode: "12345",  // Modify zipCode as needed
     };
-    console.log(eventData);
+
+    try {
+      const response = await axios.post('/api/events', eventData);
+      console.log('Event created successfully:', response.data);
+      // Optionally reset form fields
+      setEventName('');
+      setEventDescription('');
+      setLocation('');
+      setRequiredSkills([]);
+      setUrgency('');
+      setEventDate(null);
+    } catch (error) {
+      console.error('Error creating event:', error.response?.data || error.message);
+    }
   };
 
   return (
