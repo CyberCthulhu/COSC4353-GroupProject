@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextField,
   MenuItem,
@@ -15,6 +15,7 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const states = [
   { code: "AL", name: "Alabama" },
@@ -81,6 +82,7 @@ const skillsList = [
 ];
 
 const UserProfile = () => {
+  const { id: profileId } = useParams();
   const [form, setForm] = useState({
     fullName: "",
     address1: "",
@@ -94,6 +96,52 @@ const UserProfile = () => {
   });
 
   const [errors, setErrors] = useState({});
+
+  // Fetch profile data by ID when the component mounts or profileId changes
+  useEffect(() => {
+    // console.log("Profile ID:", profileId);  // Log profileId here
+
+    const protocol = window.location.protocol;  // "http:" or "https:"
+    const host = window.location.hostname;      // "localhost" or "your-domain.com"
+    const port = '4000';                        // Backend port for local development
+    const fullBackendUrl = `${protocol}//${host}:${port}`;
+
+    console.log(fullBackendUrl);  // Outputs: "http://localhost:4000"
+
+
+    const fetchProfile = async () => {
+      try {
+        // Convert profileId to a number and log it
+        const numericProfileId = parseInt(profileId, 10);
+        console.log("Numeric Profile ID:", numericProfileId);
+
+        if (isNaN(numericProfileId)) {
+          throw new Error("Invalid profile ID");
+        }
+
+        // Make the API request
+        const response = await axios.get(`${fullBackendUrl}/user-profile/${numericProfileId}`);
+        const profileData = response.data;
+
+        setForm({
+          fullName: profileData.fullName || "",
+          address1: profileData.address1 || "",
+          address2: profileData.address2 || "",
+          city: profileData.city || "",
+          state: profileData.state || "",
+          zipCode: profileData.zipCode || "",
+          skills: profileData.skills || [],
+          preferences: profileData.preferences || "",
+          availability: profileData.availability || [],
+        });
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
+    };
+    if (profileId) {
+      fetchProfile();
+    }
+  }, [profileId]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -138,6 +186,13 @@ const UserProfile = () => {
   };
 
   const handleSubmit = async (e) => {
+    const protocol = window.location.protocol;  // "http:" or "https:"
+    const host = window.location.hostname;      // "localhost" or "your-domain.com"
+    const port = '4000';                        // Backend port for local development
+    const fullBackendUrl = `${protocol}//${host}:${port}`;
+
+    console.log(fullBackendUrl);  // Outputs: "http://localhost:4000"
+
     e.preventDefault();
     if (validate()) {
       const formData = {
@@ -153,10 +208,10 @@ const UserProfile = () => {
       };
 
       try {
-        const response = await axios.post("/user-profile", formData);
-        console.log("Form submitted successfully:", response.data);
+        const response = await axios.post(`${fullBackendUrl}/user-profile/${profileId}`, formData);
+        console.log("Profile updated successfully:", response.data);
       } catch (error) {
-        console.error("Error submitting form:", error);
+        console.error("Error updating profile:", error);
       }
     }
   };
