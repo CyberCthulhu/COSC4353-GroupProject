@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { signUpForEvent } = require("../controllers/signUpController");
+const { signUpForEvent, getAllSignups } = require("../controllers/signUpController");
 
-router.post("/signup", signUpForEvent);
+router.post("/event-signup", signUpForEvent);
+router.get("/event-signups", getAllSignups);
 
 module.exports = router;
