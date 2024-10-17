@@ -5,7 +5,7 @@ const events = [
     description: "Help clean up Santa Monica Beach and protect marine wildlife.",
     requiredSkills: ["Beach Cleanup"],
     location: "Santa Monica Beach",
-    date: "2024-10-10",
+    date: "2024-10-23",
     zipCode: "90401",
   },
   {
@@ -35,6 +35,7 @@ const events = [
     date: "2024-10-20",
     zipCode: "90402",
   },
+  //edit date on this event to test out the notification system
   {
     id: 5,
     title: "Food Drive",

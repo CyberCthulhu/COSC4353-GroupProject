@@ -55,7 +55,7 @@ const EventManagement = () => {
     };
 
     try {
-      const response = await axios.post('/api/events', eventData);
+      const response = await axios.post('http://localhost:4000/events', eventData);
       console.log('Event created successfully:', response.data);
       // Optionally reset form fields
       setEventName('');
