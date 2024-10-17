@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+
 const app = express();
 
 app.use(cors());
@@ -10,8 +11,14 @@ const eventRoutes = require("./routes/eventRoutes");
 const historyRoutes = require("./routes/historyRoutes");
 const signUpRoutes = require("./routes/signUpRoutes");
 const volunteerRoutes = require("./routes/volunteerRoutes");
+
 const profileRoutes = require("./routes/profileRoutes");
 
+const notificationRoutes = require("./routes/notificationRoutes");
+
+
+
+app.use("/", notificationRoutes);
 app.use("/", authRoutes);
 app.use("/", eventRoutes);
 app.use("/", historyRoutes);
