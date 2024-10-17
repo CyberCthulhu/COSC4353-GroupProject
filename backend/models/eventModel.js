@@ -35,6 +35,7 @@ const events = [
     date: "2024-10-20",
     zipCode: "90402",
   },
+  //edit date on this event to test out the notification system
   {
     id: 5,
     title: "Food Drive",
