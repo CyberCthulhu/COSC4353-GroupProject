@@ -14,6 +14,7 @@ import AdminBoard from './components/AdminBoard';
 import AdminSignUp from './components/AdminSignUp';
 import VolunteerHistory from './components/VolunteerHistory';
 import VolunteerMatchingForm from './components/VolunteerMatchingForm';
+import NotificationsMenu from './components/NotificationMenu';
 
 
 function App() {
@@ -42,20 +43,7 @@ function App() {
 
 
           
-          <IconButton onClick={handleClick} color='inherit'>
-            <Avatar src="/broken-image.jpg" />
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-            transformOrigin={{horizontal: 'right',vertical: 'top'}}
-            anchorOrigin={{horizontal:'right',vertical: 'bottom'}}
-          >
-            <MenuItem> Notifications </MenuItem>
-            <MenuItem component={Link} to ='/volunteer-history'> History </MenuItem>
-            <MenuItem onClick={handleClose}> Logout </MenuItem>
-          </Menu>
+          <NotificationsMenu/>
           
         </Toolbar>
       </AppBar>

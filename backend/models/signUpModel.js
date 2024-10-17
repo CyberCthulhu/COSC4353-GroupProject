@@ -29,6 +29,12 @@ let signUps = [
     eventId: 2,
     date: "2024-10-05T10:00:00.000Z", 
   },
+  {
+    id: 6,
+    volunteerId: 1,
+    eventId: 5,
+    date: "2024-10-17T06:04:29.844Z"
+  },
 ];
 
 const createSignUp = (volunteerId, eventId) => {

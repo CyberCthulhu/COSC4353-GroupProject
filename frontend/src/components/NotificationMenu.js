@@ -7,7 +7,7 @@ const NotificationsMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [notifications, setNotifications] = useState([]);
 
-  const volunteerId = 1;
+  const volunteerId = 1; 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
     fetchNotifications();

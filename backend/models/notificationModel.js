@@ -1,15 +1,15 @@
-const notifications = []; // This should be initialized globally
+let notifications = [];
 
-const createNotification = (volunteerId, message) => {
-  const notification = {
-    id: notifications.length + 1, // Unique ID
+const createNotification = (volunteerId, message, eventId) => {
+  const newNotification = {
+    id: notifications.length + 1,
     volunteerId,
+    eventId,
     message,
     isRead: false,
+    createdAt: new Date().toISOString(),
   };
-  notifications.push(notification);
-  return notification;
+  notifications.push(newNotification);
 };
-
 
 module.exports = { notifications, createNotification };
