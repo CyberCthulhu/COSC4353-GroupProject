@@ -2,6 +2,16 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
+const session = require('express-session');
+
+
+const passport = require('./config/passportConf');
+const authRoutes = require("./routes/authRoutes");
+const eventRoutes = require("./routes/eventRoutes");
+const users = require('./models/authModel');
+const protectedRoutes = require('./routes/protectedRoutes')
+
+const jwt = require('jsonwebtoken');
 
 app.use(cors());
 app.use(express.json());
@@ -16,9 +26,11 @@ const notificationRoutes = require("./routes/notificationRoutes");
 
 app.use("/", notificationRoutes);
 app.use("/", authRoutes);
+app.use("/api", protectedRoutes);
 app.use("/", eventRoutes);
 app.use("/", historyRoutes);
 app.use("/", signUpRoutes);
 app.use("/", volunteerRoutes);
 
 module.exports = app;
+
