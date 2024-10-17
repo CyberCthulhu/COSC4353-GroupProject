@@ -58,7 +58,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/admin" element={<AdminBoard />} />
           <Route path="/event-management" element={<EventManagement />} />
-          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/user-profile/:id" element={<UserProfile />} />
           <Route path="/admin-signup" element={<AdminSignUp />} />
           <Route path="/volunteer-history" element={<VolunteerHistory />} />
           <Route path="/volunteer-matching" element={<VolunteerMatchingForm />} />
