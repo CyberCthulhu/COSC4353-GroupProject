@@ -97,21 +97,17 @@ const UserProfile = () => {
 
   const [errors, setErrors] = useState({});
 
-  // Fetch profile data by ID when the component mounts or profileId changes
   useEffect(() => {
-    // console.log("Profile ID:", profileId);  // Log profileId here
-
-    const protocol = window.location.protocol;  // "http:" or "https:"
-    const host = window.location.hostname;      // "localhost" or "your-domain.com"
-    const port = '4000';                        // Backend port for local development
+    const protocol = window.location.protocol;  
+    const host = window.location.hostname;      
+    const port = '4000';                       
     const fullBackendUrl = `${protocol}//${host}:${port}`;
 
-    console.log(fullBackendUrl);  // Outputs: "http://localhost:4000"
+    console.log(fullBackendUrl);  
 
 
     const fetchProfile = async () => {
       try {
-        // Convert profileId to a number and log it
         const numericProfileId = parseInt(profileId, 10);
         console.log("Numeric Profile ID:", numericProfileId);
 
@@ -119,7 +115,6 @@ const UserProfile = () => {
           throw new Error("Invalid profile ID");
         }
 
-        // Make the API request
         const response = await axios.get(`${fullBackendUrl}/user-profile/${numericProfileId}`);
         const profileData = response.data;
 
@@ -186,13 +181,12 @@ const UserProfile = () => {
   };
 
   const handleSubmit = async (e) => {
-    const protocol = window.location.protocol;  // "http:" or "https:"
-    const host = window.location.hostname;      // "localhost" or "your-domain.com"
-    const port = '4000';                        // Backend port for local development
+    const protocol = window.location.protocol;  
+    const host = window.location.hostname;      
+    const port = '4000';                        
     const fullBackendUrl = `${protocol}//${host}:${port}`;
 
-    console.log(fullBackendUrl);  // Outputs: "http://localhost:4000"
-
+    console.log(fullBackendUrl);  
     e.preventDefault();
     if (validate()) {
       const formData = {
@@ -321,7 +315,7 @@ const UserProfile = () => {
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
           label="Availability"
-          value={null} // Reset after selection
+          value={null}
           onChange={handleAvailabilityChange}
           renderInput={(params) => (
             <TextField
