@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Button } from '@mui/material';
+import { Typography, Button, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 function AdminBoard() {
@@ -9,20 +9,33 @@ function AdminBoard() {
     navigate('/event-management');
   };
 
+  const handleManageEventsClick = () => {
+    navigate('/manage-events');
+  };
+
   return (
     <div>
       <Typography variant="h4" gutterBottom>
         Admin Dashboard Page
       </Typography>
       
-      <Button 
-        variant="contained" 
-        color="primary" 
-        onClick={handleEventManagementClick}
-      >
-        Create Events
-      </Button>
+      <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
+        <Button 
+          variant="contained" 
+          color="primary" 
+          onClick={handleEventManagementClick}
+        >
+          Go to Event Management
+        </Button>
 
+        <Button 
+          variant="contained" 
+          color="primary" 
+          onClick={handleManageEventsClick}
+        >
+          Manage Events
+        </Button>
+      </Box>
     </div>
   );
 }
