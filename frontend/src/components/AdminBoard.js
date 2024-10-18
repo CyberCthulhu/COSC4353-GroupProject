@@ -13,6 +13,10 @@ function AdminBoard() {
     navigate('/manage-events');
   };
 
+  const handleVolunteerMatchingClick = () => {
+    navigate('/volunteer-matching');
+  };
+
   return (
     <div>
       <Typography variant="h4" gutterBottom>
@@ -34,6 +38,14 @@ function AdminBoard() {
           onClick={handleManageEventsClick}
         >
           Manage Events
+        </Button>
+
+        <Button 
+          variant="contained" 
+          color="primary" 
+          onClick={handleVolunteerMatchingClick}
+        >
+          Volunteer Matching Form
         </Button>
       </Box>
     </div>
