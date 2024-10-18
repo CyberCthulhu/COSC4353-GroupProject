@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 function AdminBoard() {
   const navigate = useNavigate();
 
-  const handleEventManagementClick = () => {
-    navigate('/event-management');
+  const handleCreateEventClick = () => {
+    navigate('/create-event');
   };
 
   const handleManageEventsClick = () => {
@@ -27,9 +27,9 @@ function AdminBoard() {
         <Button 
           variant="contained" 
           color="primary" 
-          onClick={handleEventManagementClick}
+          onClick={handleCreateEventClick}
         >
-          Go to Event Management
+          Create Event
         </Button>
 
         <Button 
