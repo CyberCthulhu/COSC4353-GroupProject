@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,useEffect } from "react";
 import axios from "axios";
 import {
   Container,
@@ -15,37 +15,96 @@ import {
   FormControlLabel,
 } from "@mui/material";
 
+const volunteers = [
+  {
+    id: 1,
+    name: "John Doe",
+    skills: ["Beach Cleanup", "Tree Planting"],
+    preferredLocation: "Santa Monica Beach",
+  },
+  {
+    id: 2,
+    name: "Jane Smith",
+    skills: ["Food Distribution"],
+    preferredLocation: "Downtown Community Food Bank",
+  },
+  {
+    id: 3,
+    name: "Alice Johnson",
+    skills: ["Tree Planting"],
+    preferredLocation: "City Park",
+  },
+  {
+    id: 4,
+    name: "Bob Brown",
+    skills: ["Beach Cleanup"],
+    preferredLocation: "Santa Monica Beach",
+  },
+  {
+    id: 5,
+    name: "Eve White",
+    skills: ["Food Distribution"],
+    preferredLocation: "Downtown Community Food Bank",
+  },
+  {
+    id: 6,
+    name: "Charlie Green",
+    skills: ["Tree Planting"],
+    preferredLocation: "City Park",
+  },
+];
+
+const events = [
+  {
+    id: 1,
+    title: "Beach Cleanup",
+    requiredSkills: ["Beach Cleanup"],
+    location: "Santa Monica Beach",
+  },
+  {
+    id: 2,
+    title: "Food Bank Volunteering",
+    requiredSkills: ["Food Distribution"],
+    location: "Downtown Community Food Bank",
+  },
+  {
+    id: 3,
+    title: "Tree Planting Event",
+    requiredSkills: ["Tree Planting"],
+    location: "City Park",
+  },
+  {
+    id: 4,
+    title: "Park Cleaning",
+    requiredSkills: ["Beach Cleanup"],
+    location: "Santa Monica Beach",
+  },
+  {
+    id: 5,
+    title: "Food Drive",
+    requiredSkills: ["Food Distribution"],
+    location: "Downtown Community Food Bank",
+  },
+  {
+    id: 6,
+    title: "Community Garden",
+    requiredSkills: ["Tree Planting"],
+    location: "City Park",
+  },
+];
+
 function VolunteerMatchingForm() {
   const [volunteers, setVolunteers] = useState([]);
-  const [events, setEvents] = useState([]);
-  const [selectedVolunteer, setSelectedVolunteer] = useState(null);
+  const [selectedVolunteer, setSelectedVolunteer] = useState("");
   const [matchedEvents, setMatchedEvents] = useState([]);
   const [selectedEvents, setSelectedEvents] = useState([]);
-  const [message, setMessage] = useState("");
 
   useEffect(() => {
-    axios
-      .get("http://localhost:4000/volunteers")
-      .then((response) => {
-        setVolunteers(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching volunteers:", error);
-        setMessage("Failed to load volunteers. Please try again.");
-      });
+    axios.get("http://localhost:4000/api/volunteers").then((response) => {
+      setVolunteers(response.data);
+    });
   }, []);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:4000/events")
-      .then((response) => {
-        setEvents(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching events:", error);
-        setMessage("Failed to load events. Please try again.");
-      });
-  }, []);
 
   const handleVolunteerChange = (event) => {
     const volunteerId = event.target.value;
@@ -71,26 +130,15 @@ function VolunteerMatchingForm() {
     });
   };
 
-  const handleSubmit = async () => {
-    if (!selectedVolunteer || selectedEvents.length === 0) {
-      setMessage("Please select a volunteer and at least one event.");
-      return;
-    }
-
-    try {
-      const response = await axios.post("http://localhost:4000/event-signup", {
-        volunteerId: selectedVolunteer.id,
-        eventIds: selectedEvents,
-      });
-      setMessage(response.data.message);
-    } catch (error) {
-      console.error("Error signing up:", error);
-      if (error.response) {
-        setMessage(error.response.data.message);
-      } else {
-        setMessage("Failed to sign up. Please try again.");
-      }
-    }
+  const handleSubmit = () => {
+    const selectedEventDetails = matchedEvents.filter((event) =>
+      selectedEvents.includes(event.id)
+    );
+    alert(
+      `You have signed up for: ${selectedEventDetails
+        .map((event) => event.title)
+        .join(", ")}`
+    );
   };
 
   return (
@@ -98,19 +146,6 @@ function VolunteerMatchingForm() {
       <Typography variant="h4" gutterBottom>
         Volunteer Matching Form
       </Typography>
-
-      {message && (
-        <Typography
-          variant="subtitle1"
-          color={
-            message.includes("Failed") || message.includes("error")
-              ? "error"
-              : "primary"
-          }
-        >
-          {message}
-        </Typography>
-      )}
 
       <Box
         sx={{
@@ -124,7 +159,7 @@ function VolunteerMatchingForm() {
         <FormControl fullWidth>
           <InputLabel>Select Volunteer</InputLabel>
           <Select
-            value={selectedVolunteer?.id || ""}
+            value={selectedVolunteer.id || ""}
             onChange={handleVolunteerChange}
           >
             {volunteers.map((volunteer) => (
@@ -153,15 +188,10 @@ function VolunteerMatchingForm() {
             ))}
           </List>
         ) : (
-          <Typography>No matching events found for this volunteer.</Typography>
+          <Typography>No matching events found</Typography>
         )}
 
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleSubmit}
-          disabled={!selectedVolunteer || selectedEvents.length === 0}
-        >
+        <Button variant="contained" color="primary" onClick={handleSubmit}>
           Submit
         </Button>
       </Box>

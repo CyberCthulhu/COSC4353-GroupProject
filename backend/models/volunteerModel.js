@@ -49,11 +49,10 @@ const volunteers = [
   },
 ];
 
-
-
 const createVolunteer = (newVolunteer) => {
   const volunteer = { ...newVolunteer, id: volunteers.length + 1 };
   volunteers.push(volunteer);
   return volunteer;
 };
-module.exports = { volunteers, createVolunteer };
+
+module.exports = {volunteers, createVolunteer};
