@@ -54,6 +54,15 @@ const events = [
     date: "2024-11-05",
     zipCode: "90211",
   },
+  {
+    id: 7,
+    title: "Blood Drive",
+    description: "Donate blood at the local Blood Donation Center to save lives.",
+    requiredSkills: ["None"],
+    location: "Shanghai, China",
+    date: "2024-10-29",
+    zipCode: "90401",
+  }
 ];
 
 
