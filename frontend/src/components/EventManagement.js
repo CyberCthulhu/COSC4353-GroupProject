@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
+import { format } from 'date-fns';  // Importing date-fns for date formatting
 
 const skillsList = [
   'Communication',
@@ -52,13 +53,16 @@ const EventManagement = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Format the event date to ensure only the date (no time) is included
+    const formattedDate = eventDate ? format(eventDate, 'yyyy-MM-dd') : null;
+
     const eventData = {
       title: eventName,
       description: eventDescription,
       location,
       requiredSkills,
       urgency,
-      date: eventDate,
+      date: formattedDate,  // Use the formatted date here
       zipCode,
     };
 
