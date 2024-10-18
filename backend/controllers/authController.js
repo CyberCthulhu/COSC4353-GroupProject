@@ -1,4 +1,5 @@
-const users = require("../models/volunteerModel");
+const passport = require("passport");
+const jwt = require('jsonwebtoken');
 
 exports.authenticateUser = (req, res, next) => {
     passport.authenticate("local", (err, user, info) => {
