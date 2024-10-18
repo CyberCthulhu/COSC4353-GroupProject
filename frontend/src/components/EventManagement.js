@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
+import { format } from 'date-fns';  // Importing date-fns for date formatting
 
 const skillsList = [
   'Communication',
@@ -40,16 +41,14 @@ const EventManagement = () => {
   const [eventDate, setEventDate] = useState(null);
 
   const handleSkillsChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setRequiredSkills(
-      typeof value === 'string' ? value.split(',') : value,
-    );
+    const { target: { value } } = event;
+    setRequiredSkills(typeof value === 'string' ? value.split(',') : value);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const formattedDate = eventDate ? format(eventDate, 'yyyy-MM-dd') : null; // Format date to 'yyyy-MM-dd'
 
     const eventData = {
       title: eventName,
@@ -57,7 +56,7 @@ const EventManagement = () => {
       location,
       requiredSkills,
       urgency,
-      date: eventDate,
+      date: formattedDate,  // Use formatted date (only date part)
       zipCode: "12345",  // Modify zipCode as needed
     };
 

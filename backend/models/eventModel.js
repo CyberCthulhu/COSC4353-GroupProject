@@ -35,7 +35,6 @@ const events = [
     date: "2024-10-20",
     zipCode: "90402",
   },
-  //edit date on this event to test out the notification system
   {
     id: 5,
     title: "Food Drive",
@@ -65,12 +64,10 @@ const events = [
   }
 ];
 
-
-
 const createEvent = (newEvent) => {
   const event = { ...newEvent, id: events.length + 1 };
   events.push(event);
   return event;
 };
 
-module.exports = {events, createEvent};
+module.exports = { events, createEvent };
