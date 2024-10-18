@@ -22,6 +22,13 @@ const skillsList = [
   'Leadership',
   'Problem-solving',
   'Technical Skills',
+  'Time management',
+  'Positive attitude',
+  'Compassion',
+  'Willingness to help',
+  'Commitment',
+  'Public speaking',
+  'Strong work ethic',
 ];
 
 const EventManagement = () => {
