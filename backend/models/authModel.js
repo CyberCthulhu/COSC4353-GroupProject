@@ -1,4 +1,3 @@
-// models/authModels.js
 const users = [
     {
         id: 1,

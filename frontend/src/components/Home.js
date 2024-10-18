@@ -1,24 +1,52 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { Typography, Button, Card, CardContent, Grid2 } from "@mui/material";
+import React, { useContext } from "react";
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
+import { Typography, Button, Card, CardContent, Grid } from "@mui/material";
+import { AuthContext } from '../authContext';
 
 function Home() {
+  const { token, decodedToken, logout, loading } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  if (loading) {
+    return <Typography variant="h5">Loading...</Typography>;
+  }
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   return (
-    <Grid2 container spacing={3}>
-      <Grid2 item xs={12}>
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
         <Typography variant="h4" gutterBottom>
           Welcome to Helping Hands, The United States Volunteer Network
         </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          component={Link}
-          to="/signup"
-        >
-          Sign up
-        </Button>
-      </Grid2>
-      <Grid2 item xs={12}>
+        {!token ? (
+          <Button
+            variant="contained"
+            color="primary"
+            component={Link}
+            to="/signup"
+          >
+            Sign up
+          </Button>
+        ) : (
+          <>
+            <Typography variant="h5" gutterBottom>
+              Welcome back, {decodedToken ? decodedToken.name : 'User'}
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleLogout}
+            >
+              Logout
+            </Button>
+          </>
+        )}
+      </Grid>
+      <Grid item xs={12}>
         <Card>
           <CardContent>
             <Typography variant="h5" gutterBottom>
@@ -30,8 +58,8 @@ function Home() {
             </Typography>
           </CardContent>
         </Card>
-      </Grid2>
-    </Grid2>
+      </Grid>
+    </Grid>
   );
 }
 
