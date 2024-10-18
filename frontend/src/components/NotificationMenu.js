@@ -42,6 +42,7 @@ const NotificationsMenu = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
+        <MenuItem component={Link} to="/user-profile/1">Profile</MenuItem>
         {notifications.length > 0 ? (
           notifications.map((notification) => (
             <MenuItem key={notification.id}>

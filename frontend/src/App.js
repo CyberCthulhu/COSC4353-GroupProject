@@ -15,6 +15,7 @@ import AdminSignUp from './components/AdminSignUp';
 import VolunteerHistory from './components/VolunteerHistory';
 import VolunteerMatchingForm from './components/VolunteerMatchingForm';
 import NotificationsMenu from './components/NotificationMenu';
+import AdminManageEvents from './components/AdminManageEvents';
 
 
 function App() {
@@ -57,11 +58,12 @@ function App() {
           <Route path="/volunteer" element={<VolunteerEvents />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/admin" element={<AdminBoard />} />
-          <Route path="/event-management" element={<EventManagement />} />
+          <Route path="/create-event" element={<EventManagement />} />
           <Route path="/user-profile/:id" element={<UserProfile />} />
           <Route path="/admin-signup" element={<AdminSignUp />} />
           <Route path="/volunteer-history" element={<VolunteerHistory />} />
           <Route path="/volunteer-matching" element={<VolunteerMatchingForm />} />
+          <Route path="/manage-events" element={<AdminManageEvents />} />
         </Routes>
       </Container>
     </Router>
