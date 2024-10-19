@@ -1,6 +1,7 @@
 const app = require("./app");
-const cron = require("node-cron"); // Make sure to install this package
-const { notifyVolunteers } = require("./services/notificationService"); // Adjust the path as necessary
+const cron = require("node-cron"); 
+const { notifyVolunteers } = require("./services/notificationService"); 
+const { updateParticipation } = require("./services/updateParticipationService");
 const PORT = 4000;
 
 app.get("/", (req, res) => {
@@ -12,6 +13,7 @@ app.get("/", (req, res) => {
 cron.schedule('* * * * *', () => {
   console.log('Running cron job to notify volunteers...');
   notifyVolunteers(); 
+  updateParticipation();
 });
 
 app.listen(PORT, () => {

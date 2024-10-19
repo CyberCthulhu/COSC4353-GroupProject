@@ -41,7 +41,7 @@ const events = [
     description: "Assist in gathering and distributing food donations at the Food Drive.",
     requiredSkills: ["Food Distribution"],
     location: "Downtown Community Food Bank",
-    date: "2024-10-25",
+    date: "2024-10-26",
     zipCode: "90015",
   },
   {
