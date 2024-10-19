@@ -25,6 +25,14 @@ const NotificationsMenu = () => {
       console.error("Failed to fetch notifications", error);
     }
   };
+  const markAsRead = async (notificationId) => {
+    try {
+      await axios.put(`http://localhost:4000/notifications/${notificationId}/read`);
+      setNotifications(notifications.filter(n => n.id !== notificationId));
+    } catch (error) {
+      console.error("Error marking notification as read:", error);
+    }
+  };
 
   useEffect(() => {
     fetchNotifications();
@@ -45,7 +53,7 @@ const NotificationsMenu = () => {
         <MenuItem component={Link} to="/user-profile/1">Profile</MenuItem>
         {notifications.length > 0 ? (
           notifications.map((notification) => (
-            <MenuItem key={notification.id}>
+            <MenuItem key={notification.id} onClick={() => markAsRead(notification.id)} style={{cursor:'pointer'}}>
               {notification.message}
             </MenuItem>
           ))
