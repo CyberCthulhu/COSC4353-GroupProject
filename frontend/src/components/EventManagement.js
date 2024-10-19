@@ -91,19 +91,26 @@ const EventManagement = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:4000/events', eventData);
+    const protocol = window.location.protocol;
+    const host = window.location.hostname;
+    const port = '4000';
+    const fullBackendUrl = `${protocol}//${host}:${port}`;
+    
+    if (eventId) {
+      // Send a POST request with eventId to update the event
+      const response = await axios.post(`${fullBackendUrl}/events/${eventId}`, eventData);
+      console.log('Event updated successfully:', response.data);
+    } else {
+      // Create a new event
+      const response = await axios.post(`${fullBackendUrl}/events`, eventData);
       console.log('Event created successfully:', response.data);
-      // Optionally reset form fields
-      setEventName('');
-      setEventDescription('');
-      setLocation('');
-      setRequiredSkills([]);
-      setUrgency('');
-      setEventDate(null);
-      setZipCode('');
-    } catch (error) {
-      console.error('Error creating event:', error.response?.data || error.message);
     }
+    
+    // Optionally redirect back to the events list after the operation
+    navigate('/manage-events');
+  } catch (error) {
+    console.error('Error updating/creating event:', error.response?.data || error.message);
+  }
   };
 
   return (
