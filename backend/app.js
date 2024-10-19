@@ -7,7 +7,9 @@ const session = require('express-session');
 const passport = require('./config/passportConf');
 const authRoutes = require("./routes/authRoutes");
 const eventRoutes = require("./routes/eventRoutes");
+const adminRoutes = require('./routes/adminRoutes');
 const users = require('./models/authModel');
+const admins = require('./models/adminModel')
 const protectedRoutes = require('./routes/protectedRoutes')
 
 const jwt = require('jsonwebtoken');
@@ -26,6 +28,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/api", authRoutes);
+app.use('/admin', adminRoutes);
 
 app.get("/", (req, res) => {
     res.send("Backend is running");
