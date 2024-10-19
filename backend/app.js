@@ -15,13 +15,13 @@ const profileRoutes = require("./routes/profileRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
 
 // Using routes with an API prefix for organization
-app.use("/api/notifications", notificationRoutes);
-app.use("/api/auth", authRoutes);
-app.use("/api/events", eventRoutes);
-app.use("/api/history", historyRoutes);
-app.use("/api/sign-up", signUpRoutes);
-app.use("/api/volunteers", volunteerRoutes);
-app.use("/api/profiles", profileRoutes);
+app.use("/notifications", notificationRoutes);
+app.use("/auth", authRoutes);
+app.use("/events", eventRoutes);
+app.use("/history", historyRoutes);
+app.use("/sign-up", signUpRoutes);
+app.use("/volunteers", volunteerRoutes);
+app.use("/profiles", profileRoutes);
 
 // Catch-all error handler for routes that do not exist
 app.use((req, res) => {
