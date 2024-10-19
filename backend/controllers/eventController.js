@@ -1,19 +1,37 @@
 const { events, createEvent } = require("../models/eventModel");
 
-exports.getEvents = (req, res) => {
+const getEventById = (req, res) => {
+  const eventId = parseInt(req.params.eventId, 10);
+  const event = events.find(e => e.id === eventId);
+
+  if (event) {
+    res.status(200).json(event);
+  } else {
+    res.status(404).json({ message: "Event not found" });
+  }
+};
+
+const updateEventById = (req, res) => {
+  const eventId = parseInt(req.params.eventId, 10);
+  const eventIndex = events.findIndex(e => e.id === eventId);
+
+  if (eventIndex !== -1) {
+    events[eventIndex] = { ...events[eventIndex], ...req.body };
+
+    res.status(200).json({
+      message: "Event updated successfully",
+      event: events[eventIndex]
+    });
+  } else {
+    res.status(404).json({ message: "Event not found" });
+  }
+};
+
+const getEvents = (req, res) => {
   res.json(events);
 };
 
-exports.getEventById = (req, res) => {
-  const eventId = Number(req.params.eventId);
-  const event = events.find((event) => event.id === eventId);
-  if (!event) {
-    return res.status(404).json({ message: "Event not found" });
-  }
-  res.json(event);
-};
-
-exports.createNewEvent = (req, res) => {
+const createNewEvent = (req, res) => {
   const { title, requiredSkills, location, description, urgency, date, zipCode } = req.body;
 
   if (!title || !requiredSkills || !location || !description || !urgency || !date || !zipCode) {
@@ -31,4 +49,11 @@ exports.createNewEvent = (req, res) => {
   });
 
   return res.status(201).json(newEvent);
+};
+
+module.exports = {
+  getEventById,
+  updateEventById,
+  getEvents,
+  createNewEvent
 };
