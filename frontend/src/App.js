@@ -16,10 +16,6 @@ import VolunteerHistory from './components/VolunteerHistory';
 import VolunteerMatchingForm from './components/VolunteerMatchingForm';
 import NotificationsMenu from './components/NotificationMenu';
 
-import { jwtDecode } from 'jwt-decode';
-import { AuthProvider } from './authContext';
-
-
 
 function App() {
 
@@ -80,8 +76,7 @@ function App() {
           </Routes>
         </Container>
       </Router>
-    </AuthProvider>
-  );
+      );
 }
 
-export default App;
+      export default App;

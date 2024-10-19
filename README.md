@@ -12,3 +12,13 @@ cd frontend
 npm install
 
 npm start
+
+
+To run Backend:
+
+cd backend
+
+npm install
+
+npm run dev
+

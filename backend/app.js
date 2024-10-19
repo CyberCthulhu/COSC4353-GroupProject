@@ -7,9 +7,7 @@ const session = require('express-session');
 const passport = require('./config/passportConf');
 const authRoutes = require("./routes/authRoutes");
 const eventRoutes = require("./routes/eventRoutes");
-const adminRoutes = require('./routes/adminRoutes');
 const users = require('./models/authModel');
-const admins = require('./models/adminModel')
 const protectedRoutes = require('./routes/protectedRoutes')
 
 const jwt = require('jsonwebtoken');
@@ -48,10 +46,16 @@ app.post('/api/auth', (req, res) => {
 
 
 const historyRoutes = require("./routes/historyRoutes");
+const signUpRoutes = require("./routes/signUpRoutes");
+const volunteerRoutes = require("./routes/volunteerRoutes");
+const notificationRoutes = require("./routes/notificationRoutes");
+
 
 app.use("/", authRoutes);
-app.use("/api", protectedRoutes);
 app.use("/", eventRoutes);
 app.use("/", historyRoutes);
+app.use("/", signUpRoutes);
+app.use("/", volunteerRoutes);
 
 module.exports = app;
+
