@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   TextField,
   MenuItem,
@@ -10,13 +10,10 @@ import {
   ListItemText,
   Button,
   TextareaAutosize,
-  Box,
 } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-import axios from "axios";
-import { useParams } from "react-router-dom";
 
 const states = [
   { code: "AL", name: "Alabama" },
@@ -83,7 +80,6 @@ const skillsList = [
 ];
 
 const UserProfile = () => {
-  const { id: profileId } = useParams();
   const [form, setForm] = useState({
     fullName: "",
     address1: "",
@@ -97,48 +93,6 @@ const UserProfile = () => {
   });
 
   const [errors, setErrors] = useState({});
-
-  useEffect(() => {
-    const protocol = window.location.protocol;  
-    const host = window.location.hostname;      
-    const port = '4000';                       
-    const fullBackendUrl = `${protocol}//${host}:${port}`;
-
-    console.log(fullBackendUrl);  
-
-
-    const fetchProfile = async () => {
-      try {
-        const numericProfileId = parseInt(profileId, 10);
-        console.log("Numeric Profile ID:", numericProfileId);
-
-        if (isNaN(numericProfileId)) {
-          throw new Error("Invalid profile ID");
-        }
-
-        const response = await axios.get(`${fullBackendUrl}/user-profile/${numericProfileId}`);
-        const profileData = response.data;
-
-        setForm({
-          fullName: profileData.fullName || "",
-          address1: profileData.address1 || "",
-          address2: profileData.address2 || "",
-          city: profileData.city || "",
-          state: profileData.state || "",
-          zipCode: profileData.zipCode || "",
-          skills: profileData.skills || [],
-          preferences: profileData.preferences || "",
-          availability: profileData.availability || [],
-        });
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      }
-    };
-    if (profileId) {
-      fetchProfile();
-    }
-  }, [profileId]);
-
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -156,7 +110,7 @@ const UserProfile = () => {
   const handleAvailabilityChange = (newDate) => {
     setForm((prevForm) => ({
       ...prevForm,
-      availability: [...prevForm.availability, dayjs(newDate).format("YYYY-MM-DD")],
+      availability: [...prevForm.availability, newDate],
     }));
   };
 
@@ -181,33 +135,11 @@ const UserProfile = () => {
     return Object.values(tempErrors).every((x) => x === "");
   };
 
-  const handleSubmit = async (e) => {
-    const protocol = window.location.protocol;  
-    const host = window.location.hostname;      
-    const port = '4000';                        
-    const fullBackendUrl = `${protocol}//${host}:${port}`;
-
-    console.log(fullBackendUrl);  
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      const formData = {
-        name: form.fullName,
-        address1: form.address1,
-        address2: form.address2,
-        city: form.city,
-        state: form.state,
-        zipcode: form.zipCode,
-        skills: form.skills,
-        preferences: form.preferences,
-        availability: form.availability,
-      };
-
-      try {
-        const response = await axios.post(`${fullBackendUrl}/user-profile/${profileId}`, formData);
-        console.log("Profile updated successfully:", response.data);
-      } catch (error) {
-        console.error("Error updating profile:", error);
-      }
+      console.log("Form data:", form);
+      // Submit form logic here
     }
   };
 
@@ -316,8 +248,10 @@ const UserProfile = () => {
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
           label="Availability"
-          value={null}
-          onChange={handleAvailabilityChange}
+          value={null} // Reset after selection
+          onChange={(newDate) =>
+            handleAvailabilityChange(dayjs(newDate).format("YYYY-MM-DD"))
+          }
           renderInput={(params) => (
             <TextField
               {...params}
