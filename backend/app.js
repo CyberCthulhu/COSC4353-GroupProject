@@ -1,27 +1,61 @@
 const express = require("express");
 const cors = require("cors");
-
 const app = express();
+const session = require('express-session');
+
+
+const passport = require('./config/passportConf');
+const authRoutes = require("./routes/authRoutes");
+const eventRoutes = require("./routes/eventRoutes");
+const users = require('./models/authModel');
+const protectedRoutes = require('./routes/protectedRoutes')
+
+const jwt = require('jsonwebtoken');
 
 app.use(cors());
 app.use(express.json());
 
-const authRoutes = require("./routes/authRoutes");
-const eventRoutes = require("./routes/eventRoutes");
+app.use(
+    session({
+        secret: "your_secret_key",
+        resave: false,
+        saveUninitialized: false,
+    })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use("/api", authRoutes);
+app.use('/admin', adminRoutes);
+
+app.get("/", (req, res) => {
+    res.send("Backend is running");
+});
+
+app.post('/api/auth', (req, res) => {
+    const { email, password } = req.body;
+    const user = users.find(u => u.email === email && u.password === password);
+    if (user) {
+        const token = jwt.sign({ id: user.id, email: user.email }, 'your_jwt_secret', { expiresIn: '1h' });
+        res.json({ message: 'You are authenticated as ' + user.email, token });
+    } else {
+        res.status(401).json({ message: 'Authentication failed' });
+    }
+});
+
+
+
 const historyRoutes = require("./routes/historyRoutes");
 const signUpRoutes = require("./routes/signUpRoutes");
 const volunteerRoutes = require("./routes/volunteerRoutes");
-const profileRoutes = require("./routes/profileRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
 
 
-
-app.use("/", notificationRoutes);
 app.use("/", authRoutes);
 app.use("/", eventRoutes);
 app.use("/", historyRoutes);
 app.use("/", signUpRoutes);
 app.use("/", volunteerRoutes);
-app.use("/", profileRoutes);
 
 module.exports = app;
+
