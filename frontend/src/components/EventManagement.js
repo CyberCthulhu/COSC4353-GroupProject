@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { 
   TextField, 
@@ -33,6 +34,8 @@ const skillsList = [
 ];
 
 const EventManagement = () => {
+  const { eventId } = useParams();
+  const navigate = useNavigate();
   const [eventName, setEventName] = useState('');
   const [eventDescription, setEventDescription] = useState('');
   const [location, setLocation] = useState('');
@@ -40,6 +43,27 @@ const EventManagement = () => {
   const [urgency, setUrgency] = useState('');
   const [eventDate, setEventDate] = useState(null);
   const [zipCode, setZipCode] = useState('');
+
+  useEffect(() => {
+    const fetchEvent = async () => {
+      if (eventId) {
+        try {
+          const response = await axios.get(`http://localhost:4000/events/${eventId}`);
+          const event = response.data;
+          setEventName(event.title);
+          setEventDescription(event.description);
+          setLocation(event.location);
+          setRequiredSkills(event.requiredSkills);
+          setUrgency(event.urgency);
+          setEventDate(new Date(event.date));
+          setZipCode(event.zipCode);
+        } catch (error) {
+          console.error('Error fetching event:', error);
+        }
+      }
+    };
+    fetchEvent();
+  }, [eventId]);
 
   const handleSkillsChange = (event) => {
     const {
@@ -173,7 +197,7 @@ const EventManagement = () => {
 
         {/* Submit Button */}
         <Button type="submit" variant="contained" color="primary">
-          Create Event
+          {eventId ? 'Update Event' : 'Create Event'}
         </Button>
       </Box>
     </form>

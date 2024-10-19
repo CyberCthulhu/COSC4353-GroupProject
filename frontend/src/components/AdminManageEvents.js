@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, Container, Grid, Card, CardContent, Button } from '@mui/material';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function AdminManageEvents() {
   const [events, setEvents] = useState([]);
+  const navigate = useNavigate();
 
   // Fetch events from the backend
   useEffect(() => {
@@ -18,6 +20,10 @@ function AdminManageEvents() {
 
     fetchEvents();
   }, []);
+
+  const handleEditClick = (eventId) => {
+    navigate(`/event-management/${eventId}`);  // Redirect to the event management page with the event ID
+  };
 
   return (
     <Container>
@@ -43,6 +49,7 @@ function AdminManageEvents() {
                   variant="contained"
                   color="primary"
                   style={{ marginTop: '1rem' }}
+                  onClick={() => handleEditClick(event.id)}  // Call handleEditClick with event ID
                 >
                   Edit Event
                 </Button>
