@@ -1,5 +1,5 @@
 const { signUps } = require("../models/signUpModel");
-const userParticipation = require("../models/userParticipationModel");
+const History = require("../models/historyModel");
 
 const updateParticipation = () => {
   const now = new Date();
@@ -10,12 +10,12 @@ const updateParticipation = () => {
     if (eventDate < now) {
       const { volunteerId, eventId } = signUp;
 
-      if (!userParticipation[volunteerId]) {
-        userParticipation[volunteerId] = [];
+      if (!History[volunteerId]) {
+        History[volunteerId] = [];
       }
 
-      if (!userParticipation[volunteerId].includes(eventId)) {
-        userParticipation[volunteerId].push(eventId);
+      if (!History[volunteerId].includes(eventId)) {
+        History[volunteerId].push(eventId);
       }
 
       signUps.splice(index, 1);

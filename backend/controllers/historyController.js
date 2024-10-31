@@ -1,19 +1,25 @@
-const UserParticipation = require("../models/userParticipationModel");
+// historyController.js
+const History = require("../models/historyModel");
 const Event = require("../models/eventModel");
 
 exports.getHistory = async (req, res) => {
   const userId = req.params.userId;
 
   try {
-    const userParticipation = await UserParticipation.findOne({ userId });
+    console.log(`Fetching history for userId: ${userId}`);
 
-    if (!userParticipation) {
+    const userHistory = await History.findOne({ userId });
+
+    if (!userHistory) {
+      console.log("No events have been participated in");
       return res.status(404).json({ message: "No events have been participated in" });
     }
 
-    const eventIds = userParticipation.eventIds;
+    const eventIds = userHistory.eventIds;
+    console.log(`Event IDs: ${eventIds}`);
 
     const userEvents = await Event.find({ _id: { $in: eventIds } });
+    console.log(`User Events: ${userEvents}`);
 
     res.json(userEvents);
   } catch (error) {

@@ -8,13 +8,13 @@
 
 const mongoose = require('mongoose');
 
-const userParticipationSchema = new mongoose.Schema({
+const HistorySchema = new mongoose.Schema({
   userId: { type: String, required: true },
   eventIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Event' }],
 }, {
   timestamps: true,
 });
 
-const UserParticipation = mongoose.model('UserParticipation', userParticipationSchema);
+const History = mongoose.model('History', HistorySchema);
 
-module.exports = UserParticipation;
+module.exports = History;
