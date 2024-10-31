@@ -10,7 +10,7 @@ function VolunteerHistory() {
   useEffect(() => {
     const fetchVolunteerParticipationData = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/history/2');
+        const response = await axios.get('http://localhost:4000/history/1');
         setVolunteerParticipationData(response.data);
       } catch (error) {
         console.error('Error fetching volunteer participation data:', error);

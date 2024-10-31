@@ -8,3 +8,4 @@ router.get("/events/:eventId", getEventById);
 router.post("/events", createNewEvent);
 
 module.exports = router;
+
