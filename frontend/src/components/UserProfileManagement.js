@@ -104,19 +104,18 @@ const UserProfile = () => {
     const port = '4000';                       
     const fullBackendUrl = `${protocol}//${host}:${port}`;
 
-    console.log(fullBackendUrl);  
+    // console.log(fullBackendUrl);  
 
 
     const fetchProfile = async () => {
       try {
-        const numericProfileId = parseInt(profileId, 10);
-        console.log("Numeric Profile ID:", numericProfileId);
+        // console.log("Profile ID:", profileId);
 
-        if (isNaN(numericProfileId)) {
-          throw new Error("Invalid profile ID");
+        if (!profileId || profileId.length !== 24) {
+          throw new Error("Invalid profile ID format");
         }
 
-        const response = await axios.get(`${fullBackendUrl}/user-profile/${numericProfileId}`);
+        const response = await axios.get(`${fullBackendUrl}/user-profile/${profileId}`);
         const profileData = response.data;
 
         setForm({
