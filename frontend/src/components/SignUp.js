@@ -67,6 +67,14 @@ function SignUp() {
             Register
           </Button>
         </form>
+        <Box mt={2}>
+          <Typography> Already have an account? <Link href='/login' color="inherit"> User Login
+          </Link>
+          </Typography>
+          <Typography> Are you an administrator? <Link href='/admin-login' color="inherit"> Admin Login
+          </Link>
+          </Typography>
+        </Box>
       </Paper>
     </Grid>
   );
