@@ -59,6 +59,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/admin" element={<AdminBoard />} />
           <Route path="/create-event" element={<EventManagement />} />
+          <Route path="/user-profile" element={<UserProfile />} />
           <Route path="/user-profile/:id" element={<UserProfile />} />
           <Route path="/admin-signup" element={<AdminSignUp />} />
           <Route path="/volunteer-history" element={<VolunteerHistory />} />
