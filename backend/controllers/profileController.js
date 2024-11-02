@@ -84,6 +84,7 @@ exports.createProfile = async (req, res) => {
 
   try {
     const newProfile = new Profile({
+      userId,
       fullName,
       address1,
       address2,

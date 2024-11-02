@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Box, Button, Grid, Paper, TextField, Typography, Link, Avatar } from '@mui/material';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
+  const navigate = useNavigate();
   const [data, setData] = useState({ user: '', password: '' });
 
   const handleChange = (e) => {
@@ -21,8 +23,11 @@ function SignUp() {
         name: data.user,
         password: data.password
       });
+      
       console.log(response.data);
       window.alert('User created successfully');
+      // console.log('userid:', response.data.userId)
+      navigate(`/user-profile/`);
     } catch (error) {
       if (error.response && error.response.status === 400) {
         window.alert('Username already taken');
