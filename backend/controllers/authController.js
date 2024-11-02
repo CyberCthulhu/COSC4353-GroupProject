@@ -26,7 +26,8 @@ const signup = async (req, res) => {
     const user = await User.create({
       name, password: hashedPassword
     })
-    return res.status(201).json({ message: "User created successfully" })
+    // console.log(user._id)
+    return res.status(201).json({ message: "User created successfully", userId: user._id })
 
   }
   catch (err) {
