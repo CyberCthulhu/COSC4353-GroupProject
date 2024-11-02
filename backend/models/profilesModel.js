@@ -29,6 +29,7 @@
 const mongoose = require('mongoose');
 
 const profileSchema = new mongoose.Schema({
+  userId: { type: String },
   fullName: { type: String, required: true },
   address1: { type: String, required: true },
   address2: { type: String },
@@ -36,7 +37,7 @@ const profileSchema = new mongoose.Schema({
   state: { type: String, required: true },
   zipCode: { type: String, required: true },
   skills: { type: [String], required: true },
-  preferences: { type: String, required: true },
+  preferences: { type: String },
   availability: { type: [String], required: true }
 });
 
