@@ -190,22 +190,36 @@ const UserProfile = () => {
     e.preventDefault();
     if (validate()) {
       const formData = {
-        name: form.fullName,
+        userId: "",
+        fullName: form.fullName,
         address1: form.address1,
         address2: form.address2,
         city: form.city,
         state: form.state,
-        zipcode: form.zipCode,
+        zipCode: form.zipCode,
         skills: form.skills,
         preferences: form.preferences,
         availability: form.availability,
       };
 
+      console.log("Form Data:", formData);
+
       try {
-        const response = await axios.post(`${fullBackendUrl}/user-profile/${profileId}`, formData);
-        console.log("Profile updated successfully:", response.data);
+        if (!profileId) {
+          // Create a new profile if profileId is not present
+          const response = await axios.post(`${fullBackendUrl}/user-profile/`, formData, {
+            headers: {
+              "Content-Type": "application/json"
+            }
+          });
+          console.log("Profile created successfully:", response.data);
+        } else {
+          // Update existing profile if profileId is present
+          const response = await axios.post(`${fullBackendUrl}/user-profile/${profileId}`, formData);
+          console.log("Profile updated successfully:", response.data);
+        }
       } catch (error) {
-        console.error("Error updating profile:", error);
+        console.error("Error creating/updating profile:", error);
       }
     }
   };

@@ -76,28 +76,17 @@ exports.updateProfileById = async (req, res) => {
 };
 
 exports.createProfile = async (req, res) => {
-  const { fullName, address1, address2, city, state, zipCode, skills, preferences, availability } = req.body;
-
-  if (!fullName || !address1 || !city || !state || !zipCode || !skills || !preferences || !availability) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
-
   try {
-    const newProfile = new Profile({
-      userId,
-      fullName,
-      address1,
-      address2,
-      city,
-      state,
-      zipCode,
-      skills,
-      preferences,
-      availability
+    console.log("Creating new profile with data:", req.body);  // Log incoming data
+    const newProfile = new Profile(req.body);
+    const savedProfile = await newProfile.save();
+    console.log("Profile successfully saved to database:", savedProfile);
+    return res.status(201).json({
+      message: "Profile created successfully",
+      profile: savedProfile,
     });
-    await newProfile.save();
-    return res.status(201).json(newProfile);
   } catch (error) {
+    console.error("Error creating profile in database:", error);  // Detailed error logging
     res.status(500).json({ message: "Error creating profile", error });
   }
 };
