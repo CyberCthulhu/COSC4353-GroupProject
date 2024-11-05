@@ -26,6 +26,7 @@ function Login() {
         password: data.password
       });
       window.alert('login successful');
+      localStorage.setItem('token', response.data.token);
       navigate('/')
     } catch (error) {
       console.error('Error logging in:', error);
