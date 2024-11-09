@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Avatar, Box, Button, Grid2, Paper, TextField, Typography, Link } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../UserContext';
+import { jwtDecode } from 'jwt-decode';
 
 
 function Login() {
 
   const navigate = useNavigate()
+  const { setUser } = useContext(UserContext);
   const [data, setData] = useState({ user: '', password: '' });
 
   const handleChange = (e) => {
@@ -27,6 +30,8 @@ function Login() {
       });
       window.alert('login successful');
       localStorage.setItem('token', response.data.token);
+      const decodedUser = jwtDecode(response.data.token);
+      setUser(decodedUser);
       navigate('/')
     } catch (error) {
       console.error('Error logging in:', error);

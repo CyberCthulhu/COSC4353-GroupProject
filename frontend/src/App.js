@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Container, Button, Avatar, Menu, MenuItem, IconButton,} from '@mui/material';
+import { AppBar, Toolbar, Typography, Container, Button, Avatar, Menu, MenuItem, IconButton, } from '@mui/material';
 
+import { UserProvider } from './UserContext';
 
 import Home from './components/Home';
 import Login from './components/Login';
@@ -31,43 +32,45 @@ function App() {
 
 
   return (
-    <Router>
+    <UserProvider>
+      <Router>
 
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" style={{ flexGrow: 1 }}>
-            Helping Hands
-          </Typography>
-          <Button color="inherit" component={Link} to="/">Home</Button>
-          <Button color="inherit" component={Link} to="/volunteer">Volunteer Events</Button>
-          <Button color="inherit" component={Link} to="/login">Login</Button>
-
-
-          
-          <NotificationsMenu/>
-          
-        </Toolbar>
-      </AppBar>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant="h6" style={{ flexGrow: 1 }}>
+              Helping Hands
+            </Typography>
+            <Button color="inherit" component={Link} to="/">Home</Button>
+            <Button color="inherit" component={Link} to="/volunteer">Volunteer Events</Button>
+            <Button color="inherit" component={Link} to="/login">Login</Button>
 
 
-      <Container style={{ marginTop: '2rem' }}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/admin-login" element={<AdminLogin />} />
-          <Route path="/volunteer" element={<VolunteerEvents />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/admin" element={<AdminBoard />} />
-          <Route path="/create-event" element={<EventManagement />} />
-          <Route path="/user-profile" element={<UserProfile />} />
-          <Route path="/user-profile/:id" element={<UserProfile />} />
-          <Route path="/admin-signup" element={<AdminSignUp />} />
-          <Route path="/volunteer-history" element={<VolunteerHistory />} />
-          <Route path="/volunteer-matching" element={<VolunteerMatchingForm />} />
-          <Route path="/manage-events" element={<AdminManageEvents />} />
-        </Routes>
-      </Container>
-    </Router>
+
+            <NotificationsMenu />
+
+          </Toolbar>
+        </AppBar>
+
+
+        <Container style={{ marginTop: '2rem' }}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/admin-login" element={<AdminLogin />} />
+            <Route path="/volunteer" element={<VolunteerEvents />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/admin" element={<AdminBoard />} />
+            <Route path="/create-event" element={<EventManagement />} />
+            <Route path="/user-profile" element={<UserProfile />} />
+            <Route path="/user-profile/:id" element={<UserProfile />} />
+            <Route path="/admin-signup" element={<AdminSignUp />} />
+            <Route path="/volunteer-history" element={<VolunteerHistory />} />
+            <Route path="/volunteer-matching" element={<VolunteerMatchingForm />} />
+            <Route path="/manage-events" element={<AdminManageEvents />} />
+          </Routes>
+        </Container>
+      </Router>
+    </UserProvider>
   );
 }
 

@@ -27,7 +27,6 @@ const signup = async (req, res) => {
     const user = await User.create({
       name, password: hashedPassword
     })
-    // console.log(user._id) working object id
     return res.status(201).json({ message: "User created successfully" })
 
   }

@@ -1,5 +1,6 @@
 const User = require("../models/adminAuthModel.js");
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 
 const hashPassword = async (password) => {
@@ -47,7 +48,9 @@ const login = async (req, res) => {
             return res.status(400).json({ message: "Invalid password" })
         }
         else {
-            return res.status(201).json({ message: "Login successful" })
+            const token = jwt.sign({ id: user._id, name: user.name }, process.env.JWT_SECRET, { expiresIn: "1h" })
+            res.cookie("token", token, { httpOnly: true })
+            return res.status(201).json({ message: "Login successful", token })
         }
     }
     catch (err) {
