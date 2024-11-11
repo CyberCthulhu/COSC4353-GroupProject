@@ -6,7 +6,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const authRoutes = require("./routes/authRoutes");
+const userAuthRoutes = require("./routes/userAuthRoutes");
+const adminAuthRoutes = require("./routes/adminAuthRoutes");
 const eventRoutes = require("./routes/eventRoutes");
 const historyRoutes = require("./routes/historyRoutes");
 const signUpRoutes = require("./routes/signUpRoutes");
@@ -17,7 +18,8 @@ const notificationRoutes = require("./routes/notificationRoutes");
 
 
 app.use("/", notificationRoutes);
-app.use("/", authRoutes);
+app.use("/", userAuthRoutes);
+app.use("/", adminAuthRoutes);
 app.use("/", eventRoutes);
 app.use("/", historyRoutes);
 app.use("/", signUpRoutes);
