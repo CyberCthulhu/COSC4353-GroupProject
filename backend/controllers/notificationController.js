@@ -5,7 +5,7 @@ const getNotificationsForVolunteer = (req, res) => {
   const userNotifications = notifications.filter(
     (n) => n.volunteerId === volunteerId && !n.isRead
   );
-  console.log(userNotifications); // Add logging to see what is returned
+  console.log(userNotifications); 
   res.json(userNotifications);
 };
 
