@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Avatar, Box, Button, Grid2, Paper, TextField, Typography, Link } from '@mui/material';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../UserContext';
+import { jwtDecode } from 'jwt-decode';
 
 
 function Admin_Login() {
 
     const navigate = useNavigate()
+    const { setUser } = useContext(UserContext);
     const [data, setData] = useState({ user: '', password: '' });
 
     const handleChange = (e) => {
@@ -25,7 +28,10 @@ function Admin_Login() {
                 name: data.user,
                 password: data.password
             });
-            window.alert('login successful');
+            window.alert('Login successful');
+            localStorage.setItem('token', response.data.token);
+            const decodedUser = jwtDecode(response.data.token);
+            setUser(decodedUser);
             navigate('/admin')
         } catch (error) {
             console.error('Error logging in:', error);
