@@ -57,4 +57,14 @@ const login = async (req, res) => {
     return res.status(500).json({ message: "Error logging in", error })
   }
 }
-module.exports = { signup, login }
+
+const logout = async (req, res) => {
+  try {
+    res.cookie('token', '', { httpOnly: true, expires: new Date(0) })
+    return res.status(200).json({ message: "Logout successful" });
+  }
+  catch (error) {
+    return res.status(500).json({ message: "Error signing out", error });
+  }
+}
+module.exports = { signup, login, logout }
