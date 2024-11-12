@@ -9,7 +9,7 @@
 const mongoose = require('mongoose');
 
 const HistorySchema = new mongoose.Schema({
-  userId: { type: String, required: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   eventIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Event' }],
 }, {
   timestamps: true,

@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { getNotificationsForVolunteer,getAllNotifications, markNotificationAsRead } = require("../controllers/notificationController");
+const { getNotificationsbyUser,getAllNotifications, markNotificationAsRead } = require("../controllers/notificationController");
 
-router.get("/notifications/:volunteerId", getNotificationsForVolunteer);
+router.get("/notifications/:userId", getNotificationsbyUser);
 
 router.get("/notifications", getAllNotifications);
 

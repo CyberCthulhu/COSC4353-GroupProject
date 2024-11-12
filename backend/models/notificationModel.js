@@ -17,8 +17,9 @@
 const mongoose = require('mongoose');
 
 const notificationSchema = new mongoose.Schema({
-  volunteerId: { type: String, required: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   eventId: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
+  message: { type: String, required: true },
   isRead: { type: Boolean, default: false },
 }, {
   timestamps: true,

@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import axios from 'axios';
-
+import { UserContext } from '../UserContext';
 
 
 function VolunteerHistory() {
+  const { user } = useContext(UserContext);
+
+  const userId = user.id;
+
   const [volunteerParticipationData, setVolunteerParticipationData] = useState([]);
 
   useEffect(() => {
     const fetchVolunteerParticipationData = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/history/1');
+        const response = await axios.get(`http://localhost:4000/history/${userId}`);
         setVolunteerParticipationData(response.data);
       } catch (error) {
         console.error('Error fetching volunteer participation data:', error);

@@ -14,7 +14,7 @@ function Home() {
           Welcome to Helping Hands, The United States Volunteer Network
         </Typography>
         {user ? (
-          <Typography variant="h6">Hello, {user.name}</Typography>
+          <Typography variant="h6">Hello, {user.id}</Typography>
         ) : (
           <Button variant="contained" color="primary" component={Link} to="/signup">
             Sign up
