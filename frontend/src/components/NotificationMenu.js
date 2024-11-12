@@ -79,12 +79,14 @@ import { MenuItem, Menu, IconButton, Avatar } from "@mui/material";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { UserContext } from "../UserContext";
+import { useNavigate } from 'react-router-dom';
 
 const NotificationsMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [notifications, setNotifications] = useState([]);
+  const navigate = useNavigate();
 
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   console.log(user);
   const userId = user ? user.id : null;
 
@@ -127,6 +129,23 @@ const NotificationsMenu = () => {
     }
   }, [userId]);
 
+  const handleLogout = async () => {
+    if (!userId) {
+      console.log("No user signed in")
+      return
+    }
+    try {
+      const response = await axios.post("http://localhost:4000/logout")
+      setUser(null)
+      localStorage.removeItem('token');
+      navigate('/');
+      window.alert("You have successfully logged out")
+    }
+    catch (error) {
+      console.error('Error signing out:', error);
+    }
+  }
+
   return (
     <>
       <IconButton onClick={handleClick} color="inherit">
@@ -143,7 +162,7 @@ const NotificationsMenu = () => {
         {notifications.length > 0 ? (
           notifications.map((notification) => (
             console.log(notification._id),
-            <MenuItem key={notification._id} onClick={() => markAsRead(notification._id)} style={{cursor:'pointer'}}>
+            <MenuItem key={notification._id} onClick={() => markAsRead(notification._id)} style={{ cursor: 'pointer' }}>
               {notification.message}
             </MenuItem>
           ))
@@ -151,7 +170,7 @@ const NotificationsMenu = () => {
           <MenuItem>No new notifications</MenuItem>
         )}
         <MenuItem component={Link} to="/volunteer-history">History</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </>
   );

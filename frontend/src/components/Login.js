@@ -28,7 +28,7 @@ function Login() {
         name: data.user,
         password: data.password
       });
-      window.alert('login successful');
+      window.alert('Login successful');
       localStorage.setItem('token', response.data.token);
       const decodedUser = jwtDecode(response.data.token);
       setUser(decodedUser);
