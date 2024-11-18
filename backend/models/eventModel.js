@@ -75,6 +75,7 @@ const eventSchema = new mongoose.Schema({
   requiredSkills: { type: [String], required: true },
   location: { type: String, required: true },
   date: { type: String, required: true },
+  urgency: { type: String, required: true },
   zipCode: { type: String, required: true },
 }
 );

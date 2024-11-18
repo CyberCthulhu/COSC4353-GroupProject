@@ -16,18 +16,19 @@ import {
 } from "@mui/material";
 
 function VolunteerMatchingForm() {
-  const [volunteers, setVolunteers] = useState([]);
+  const [profiles, setProfiles] = useState([]);
   const [events, setEvents] = useState([]);
-  const [selectedVolunteer, setSelectedVolunteer] = useState(null);
+  const [selectedProfile, setSelectedProfile] = useState(null);
   const [matchedEvents, setMatchedEvents] = useState([]);
   const [selectedEvents, setSelectedEvents] = useState([]);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/volunteers")
+      .get("http://localhost:4000/user-profiles")
       .then((response) => {
-        setVolunteers(response.data);
+        console.log(response.data);
+        setProfiles(response.data);
       })
       .catch((error) => {
         console.error("Error fetching volunteers:", error);
@@ -47,15 +48,15 @@ function VolunteerMatchingForm() {
       });
   }, []);
 
-  const handleVolunteerChange = (event) => {
-    const volunteerId = event.target.value;
-    const volunteer = volunteers.find((v) => v.id === volunteerId);
-    setSelectedVolunteer(volunteer);
+  const handleProfileChange = (event) => {
+    const profileId = event.target.value;
+    const profile = profiles.find((p) => p._id === profileId);
+    setSelectedProfile(profile);
 
     const matched = events.filter(
       (ev) =>
-        ev.requiredSkills.some((skill) => volunteer.skills.includes(skill)) &&
-        ev.location === volunteer.preferredLocation
+        ev.requiredSkills.some((skill) => profile.skills.includes(skill)) &&
+        ev.location === profile.city
     );
     setMatchedEvents(matched);
     setSelectedEvents([]);
@@ -72,14 +73,14 @@ function VolunteerMatchingForm() {
   };
 
   const handleSubmit = async () => {
-    if (!selectedVolunteer || selectedEvents.length === 0) {
+    if (!selectedProfile || selectedEvents.length === 0) {
       setMessage("Please select a volunteer and at least one event.");
       return;
     }
 
     try {
       const response = await axios.post("http://localhost:4000/event-signup", {
-        volunteerId: selectedVolunteer.id,
+        profileId: selectedProfile.userId,
         eventIds: selectedEvents,
       });
       setMessage(response.data.message);
@@ -124,12 +125,12 @@ function VolunteerMatchingForm() {
         <FormControl fullWidth>
           <InputLabel>Select Volunteer</InputLabel>
           <Select
-            value={selectedVolunteer?.id || ""}
-            onChange={handleVolunteerChange}
+            value={selectedProfile?._id || ""}
+            onChange={handleProfileChange}
           >
-            {volunteers.map((volunteer) => (
-              <MenuItem key={volunteer.id} value={volunteer.id}>
-                {volunteer.name}
+            {profiles.map((profile) => (
+              <MenuItem key={profile._id} value={profile._id}>
+                {profile.fullName}
               </MenuItem>
             ))}
           </Select>
@@ -160,7 +161,7 @@ function VolunteerMatchingForm() {
           variant="contained"
           color="primary"
           onClick={handleSubmit}
-          disabled={!selectedVolunteer || selectedEvents.length === 0}
+          disabled={!selectedProfile || selectedEvents.length === 0}
         >
           Submit
         </Button>

@@ -63,9 +63,9 @@ exports.getEventById = async (req, res) => {
 };
 
 exports.createNewEvent = async (req, res) => {
-  const { title, requiredSkills, location, description, date, zipCode } = req.body;
+  const { title, requiredSkills, location, description, date, urgency, zipCode } = req.body;
 
-  if (!title || !requiredSkills || !location || !date || !zipCode) {
+  if (!title || !requiredSkills || !location || !date || !zipCode || !urgency) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
@@ -76,6 +76,7 @@ exports.createNewEvent = async (req, res) => {
       location,
       description,
       date,
+      urgency,
       zipCode,
     });
     await newEvent.save(); 

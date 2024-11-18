@@ -4,7 +4,6 @@ const {createNewEvent, getEvents, getEventById} = require("../controllers/eventC
 
 router.get("/events", getEvents);
 router.get("/events/:eventId", getEventById);
-
 router.post("/events", createNewEvent);
 
 module.exports = router;
