@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
+import axios from 'axios';
 
 const skillsList = [
   'Communication',
@@ -30,8 +31,9 @@ const EventManagement = () => {
   const [requiredSkills, setRequiredSkills] = useState([]);
   const [urgency, setUrgency] = useState('');
   const [eventDate, setEventDate] = useState(null);
+  const [zipCode, setZipCode] = useState('');
 
-  const handleSkillsChange = (event) => {
+  const handleSkillsChange =  (event) => {
     const {
       target: { value },
     } = event;
@@ -40,17 +42,27 @@ const EventManagement = () => {
     );
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    const formattedDate = eventDate ? eventDate.toISOString().split('T')[0] : null;
     const eventData = {
-      eventName,
-      eventDescription,
+      title: eventName,
+      description: eventDescription,
       location,
       requiredSkills,
       urgency,
-      eventDate,
+      date: formattedDate,
+      zipCode,
     };
-    console.log(eventData);
+
+
+    try {
+      const response = await axios.post('http://localhost:4000/events', eventData);
+      console.log('Event created successfully:', response.data);
+    } catch (error) {
+      console.error('Error creating event:', error);
+    }
+
   };
 
   return (
@@ -106,7 +118,6 @@ const EventManagement = () => {
           </Select>
         </FormControl>
 
-        {/* Urgency */}
         <FormControl required>
           <InputLabel id="urgency-label">Urgency</InputLabel>
           <Select
@@ -131,8 +142,14 @@ const EventManagement = () => {
             renderInput={(params) => <TextField {...params} required />}
           />
         </LocalizationProvider>
-
-        {/* Submit Button */}
+        <TextField
+          label="Zip Code"
+          variant="outlined"
+          value={zipCode}
+          onChange={(e) => setZipCode(e.target.value)}
+          required
+          inputProps={{ maxLength: 5 }}
+        />
         <Button type="submit" variant="contained" color="primary">
           Create Event
         </Button>

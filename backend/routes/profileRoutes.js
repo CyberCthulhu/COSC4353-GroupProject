@@ -8,4 +8,6 @@ router.post("/user-profile/:id", profileController.updateProfileById);
 
 router.post("/user-profile", profileController.createProfile);
 
+router.get("/user-profiles", profileController.getProfiles);
+
 module.exports = router;

@@ -35,6 +35,17 @@
 const Profile = require("../models/profilesModel");
 const mongoose = require("mongoose");
 
+
+exports.getProfiles = async (req, res) => {
+  try {
+    const profiles = await Profile.find();
+    res.status(200).json(profiles);
+  } catch (error) {
+    console.error("Error fetching profiles:", error);
+    res.status(500).json({ message: "Error fetching profiles", error });
+  }
+};
+
 exports.getProfileById = async (req, res) => {
   try {
     const id = req.params.id;
