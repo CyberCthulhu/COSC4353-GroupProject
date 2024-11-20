@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import {
   TextField,
   MenuItem,
@@ -17,6 +17,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { UserContext } from '../UserContext';
 
 const states = [
   { code: "AL", name: "Alabama" },
@@ -84,6 +85,7 @@ const skillsList = [
 
 const UserProfile = () => {
   const { id: profileId } = useParams();
+  const { user } = useContext(UserContext);
   const [form, setForm] = useState({
     fullName: "",
     address1: "",
@@ -180,7 +182,9 @@ const UserProfile = () => {
     return Object.values(tempErrors).every((x) => x === "");
   };
 
-  const handleSubmit = async (e) => {
+  const HandleSubmit = async (e) => {
+    const userId = user.id;
+    console.log("User ID:", userId);
     const protocol = window.location.protocol;  
     const host = window.location.hostname;      
     const port = '4000';                        
@@ -190,7 +194,7 @@ const UserProfile = () => {
     e.preventDefault();
     if (validate()) {
       const formData = {
-        userId: "",
+        userId: userId,
         fullName: form.fullName,
         address1: form.address1,
         address2: form.address2,
@@ -225,7 +229,7 @@ const UserProfile = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={HandleSubmit}>
       <TextField
         label="Full Name"
         name="fullName"
