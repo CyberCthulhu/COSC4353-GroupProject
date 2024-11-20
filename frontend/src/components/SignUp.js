@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import { Box, Button, Grid, Paper, TextField, Typography, Link, Avatar } from '@mui/material';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../UserContext';
+import { jwtDecode } from 'jwt-decode';
+
 
 function SignUp() {
   const navigate = useNavigate();
   const [data, setData] = useState({ user: '', password: '' });
+  const { setUser } = useContext(UserContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,8 +30,16 @@ function SignUp() {
       
       console.log(response.data);
       window.alert('User created successfully');
-      // console.log('userid:', response.data.userId)
-      navigate(`/user-profile/`);
+
+      const loginResponse = await axios.post('http://localhost:4000/login', {
+        name: data.user,
+        password: data.password
+      });
+      localStorage.setItem('token', loginResponse.data.token);
+      const decodedUser = jwtDecode(loginResponse.data.token);
+      setUser(decodedUser);
+
+      navigate(`/user-profile`);
     } catch (error) {
       if (error.response && error.response.status === 400) {
         window.alert('Username already taken');
