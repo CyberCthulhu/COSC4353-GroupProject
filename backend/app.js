@@ -13,7 +13,7 @@ const historyRoutes = require("./routes/historyRoutes");
 const signUpRoutes = require("./routes/signUpRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
-
+const reportRoutes = require("./routes/reportRoutes");
 
 
 app.use("/", notificationRoutes);
@@ -23,5 +23,6 @@ app.use("/", eventRoutes);
 app.use("/", historyRoutes);
 app.use("/", signUpRoutes);
 app.use("/", profileRoutes);
+app.use("/", reportRoutes);
 
 module.exports = app;
