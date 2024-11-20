@@ -51,8 +51,7 @@ const EventManagement = () => {
       location,
       requiredSkills,
       urgency,
-      date: formattedDate,
-      zipCode,
+      date: formattedDate,      zipCode,
     };
 
 

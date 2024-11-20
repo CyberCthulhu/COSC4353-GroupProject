@@ -1,4 +1,6 @@
 import React, { useContext } from 'react';
+import axios from 'axios';
+import {saveAs} from 'file-saver';
 import { Typography, Button, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
@@ -18,6 +20,17 @@ function AdminBoard() {
 
   const handleVolunteerMatchingClick = () => {
     navigate('/volunteer-matching');
+  };
+
+  const handleGenerateCSVClick = async () => {
+    try {
+      const response = await axios.get('http://localhost:4000/users-events-report');
+      const csvData = response.data;
+      const blob = new Blob([csvData], {type: 'text/csv;charset=utf-8'});
+      saveAs(blob, 'users-events-report.csv');
+    } catch (error) {
+      console.error('Error generating CSV report:',error);
+    }
   };
 
   if (user) {
@@ -50,6 +63,14 @@ function AdminBoard() {
             onClick={handleVolunteerMatchingClick}
           >
             Volunteer Matching Form
+          </Button>
+
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleGenerateCSVClick}
+          >
+            Generate Users Events Report
           </Button>
         </Box>
       </div>
