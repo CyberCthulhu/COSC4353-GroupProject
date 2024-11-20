@@ -35,10 +35,9 @@
 const Event = require("../models/eventModel");
 const mongoose = require("mongoose");
 
-
 exports.getEvents = async (req, res) => {
   try {
-    const events = await Event.find(); 
+    const events = await Event.find();
     res.json(events);
   } catch (error) {
     res.status(500).json({ message: "Error retrieving events", error });
@@ -63,7 +62,15 @@ exports.getEventById = async (req, res) => {
 };
 
 exports.createNewEvent = async (req, res) => {
-  const { title, requiredSkills, location, description, date, urgency, zipCode } = req.body;
+  const {
+    title,
+    requiredSkills,
+    location,
+    description,
+    date,
+    urgency,
+    zipCode,
+  } = req.body;
 
   if (!title || !requiredSkills || !location || !date || !zipCode || !urgency) {
     return res.status(400).json({ message: "All fields are required" });
@@ -79,9 +86,67 @@ exports.createNewEvent = async (req, res) => {
       urgency,
       zipCode,
     });
-    await newEvent.save(); 
+    await newEvent.save();
     return res.status(201).json(newEvent);
   } catch (error) {
     res.status(500).json({ message: "Error creating event", error });
+  }
+};
+
+exports.deleteEventById = async (req, res) => {
+  const eventId = req.params.eventId;
+
+  if (!mongoose.Types.ObjectId.isValid(eventId)) {
+    return res.status(400).json({ message: "Invalid event ID format" });
+  }
+
+  try {
+    const deletedEvent = await Event.findByIdAndDelete(eventId);
+
+    if (!deletedEvent) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    return res.status(200).json({ message: "Event deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting event", error });
+  }
+};
+
+exports.updateEventById = async (req, res) => {
+  const eventId = req.params.eventId;
+
+  if (!mongoose.Types.ObjectId.isValid(eventId)) {
+    return res.status(400).json({ message: "Invalid event ID format" });
+  }
+
+  const {
+    title,
+    requiredSkills,
+    location,
+    description,
+    date,
+    urgency,
+    zipCode,
+  } = req.body;
+
+  if (!title || !requiredSkills || !location || !date || !zipCode || !urgency) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  try {
+    const updatedEvent = await Event.findByIdAndUpdate(
+      eventId,
+      { title, requiredSkills, location, description, date, urgency, zipCode },
+      { new: true }
+    );
+
+    if (!updatedEvent) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    return res.status(200).json(updatedEvent);
+  } catch (error) {
+    res.status(500).json({ message: "Error updating event", error });
   }
 };
