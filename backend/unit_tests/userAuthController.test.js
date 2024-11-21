@@ -20,7 +20,7 @@ describe("User Auth Controller", () => {
         status: jest.fn().mockReturnThis(),
       };
 
-      User.findOne.mockResolvedValue(null); // No existing user
+      User.findOne.mockResolvedValue(null); 
       bcrypt.hash.mockResolvedValue("hashedPassword123");
       User.create.mockResolvedValue({ name: "testuser", password: "hashedPassword123" });
 

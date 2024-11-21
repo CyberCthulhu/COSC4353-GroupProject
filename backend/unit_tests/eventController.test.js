@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Event = require("../models/eventModel");
-const eventController = require("../controllers/eventController"); // Adjust path if needed
+const eventController = require("../controllers/eventController");
 const { createNewEvent } = require("../controllers/eventController");
 
 jest.mock("../models/eventModel");
