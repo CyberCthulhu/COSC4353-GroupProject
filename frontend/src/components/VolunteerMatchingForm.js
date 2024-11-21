@@ -13,7 +13,10 @@ import {
   Button,
   Box,
   FormControlLabel,
+  IconButton,
 } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useNavigate } from "react-router-dom";
 
 function VolunteerMatchingForm() {
   const [profiles, setProfiles] = useState([]);
@@ -23,11 +26,13 @@ function VolunteerMatchingForm() {
   const [selectedEvents, setSelectedEvents] = useState([]);
   const [message, setMessage] = useState("");
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     axios
       .get("http://localhost:4000/user-profiles")
       .then((response) => {
-        console.log(response.data);
+        console.log("Profiles:", response.data);
         setProfiles(response.data);
       })
       .catch((error) => {
@@ -40,6 +45,7 @@ function VolunteerMatchingForm() {
     axios
       .get("http://localhost:4000/events")
       .then((response) => {
+        console.log("Events:", response.data);
         setEvents(response.data);
       })
       .catch((error) => {
@@ -77,13 +83,13 @@ function VolunteerMatchingForm() {
       setMessage("Please select a volunteer and at least one event.");
       return;
     }
-
     try {
       const response = await axios.post("http://localhost:4000/event-signup", {
-        profileId: selectedProfile.userId,
+        userId: selectedProfile.userId,
         eventIds: selectedEvents,
       });
-      setMessage(response.data.message);
+      console.log("Sign up response:", response.data[0].message);
+      setMessage(response.data[0].message);
     } catch (error) {
       console.error("Error signing up:", error);
       if (error.response) {
@@ -96,6 +102,9 @@ function VolunteerMatchingForm() {
 
   return (
     <Container style={{ marginTop: "2rem" }}>
+      <IconButton onClick={() => navigate("/admin")}>
+        <ArrowBackIcon />
+      </IconButton>
       <Typography variant="h4" gutterBottom>
         Volunteer Matching Form
       </Typography>
@@ -140,12 +149,12 @@ function VolunteerMatchingForm() {
         {matchedEvents.length > 0 ? (
           <List>
             {matchedEvents.map((event) => (
-              <ListItem key={event.id}>
+              <ListItem key={event._id}>
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={selectedEvents.includes(event.id)}
-                      onChange={() => handleEventSelect(event.id)}
+                      checked={selectedEvents.includes(event._id)}
+                      onChange={() => handleEventSelect(event._id)}
                     />
                   }
                   label={`${event.title} - ${event.location}`}

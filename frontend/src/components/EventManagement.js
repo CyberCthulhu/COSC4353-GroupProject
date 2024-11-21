@@ -10,10 +10,13 @@ import {
   Box, 
   OutlinedInput, 
   Checkbox, 
-  ListItemText 
+  ListItemText,
+  IconButton
 } from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
+import { useNavigate } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import axios from 'axios';
 
 const skillsList = [
@@ -32,6 +35,9 @@ const EventManagement = () => {
   const [urgency, setUrgency] = useState('');
   const [eventDate, setEventDate] = useState(null);
   const [zipCode, setZipCode] = useState('');
+
+  const navigate = useNavigate();
+
 
   const handleSkillsChange =  (event) => {
     const {
@@ -58,6 +64,14 @@ const EventManagement = () => {
     try {
       const response = await axios.post('http://localhost:4000/events', eventData);
       console.log('Event created successfully:', response.data);
+
+      setEventName('');
+      setEventDescription('');
+      setLocation('');
+      setRequiredSkills([]);
+      setUrgency('');
+      setEventDate(null);
+      setZipCode('');
     } catch (error) {
       console.error('Error creating event:', error);
     }
@@ -67,7 +81,10 @@ const EventManagement = () => {
   return (
     <form onSubmit={handleSubmit}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%', maxWidth: '600px', margin: 'auto' }}>
-        {/* Event Name */}
+        <IconButton onClick={() => navigate('/admin')}>
+          <ArrowBackIcon />
+        </IconButton>
+
         <TextField
           label="Event Name"
           variant="outlined"

@@ -56,28 +56,60 @@
 const SignUp = require("../models/signUpModel");
 
 // Sign up for an event
+// const signUpForEvent = async (req, res) => {
+//   const { userId, eventId } = req.body;
+
+//   try {
+//     // Check if the user is already signed up for the event
+//     const existingSignUp = await SignUp.findOne({ userId, eventId });
+
+//     if (existingSignUp) {
+//       return res.status(400).json({ message: "User is already signed up for the event" });
+//     }
+
+//     // Create a new sign-up
+//     const newSignUp = new SignUp({ userId, eventId });
+//     await newSignUp.save();
+
+//     return res.status(201).json({
+//       message: "Successfully signed up for the event",
+//       signUp: newSignUp,
+//     });
+//   } catch (error) {
+//     console.error("Error signing up for event:", error);
+//     res.status(500).json({ message: "Error signing up for event", error });
+//   }
+// };
+
 const signUpForEvent = async (req, res) => {
-  const { userId, eventId } = req.body;
+  const { userId, eventIds } = req.body;
+
+  if (!Array.isArray(eventIds)) {
+    return res.status(400).json({ message: "eventIds must be an array" });
+  }
 
   try {
-    // Check if the user is already signed up for the event
-    const existingSignUp = await SignUp.findOne({ userId, eventId });
+    const signUpResults = [];
 
-    if (existingSignUp) {
-      return res.status(400).json({ message: "User is already signed up for the event" });
+    for (const eventId of eventIds) {
+      // Check if the user is already signed up for the event
+      const existingSignUp = await SignUp.findOne({ userId, eventId });
+
+      if (existingSignUp) {
+        signUpResults.push({ eventId, message: "User is already signed up for the event" });
+        continue;
+      }
+
+      // Create a new sign-up
+      const newSignUp = new SignUp({ userId, eventId });
+      await newSignUp.save();
+      signUpResults.push({ eventId, message: "Successfully signed up for the event", signUp: newSignUp });
     }
 
-    // Create a new sign-up
-    const newSignUp = new SignUp({ userId, eventId });
-    await newSignUp.save();
-
-    return res.status(201).json({
-      message: "Successfully signed up for the event",
-      signUp: newSignUp,
-    });
+    return res.status(201).json(signUpResults);
   } catch (error) {
-    console.error("Error signing up for event:", error);
-    res.status(500).json({ message: "Error signing up for event", error });
+    console.error("Error signing up for events:", error);
+    res.status(500).json({ message: "Error signing up for events", error });
   }
 };
 
