@@ -1,4 +1,3 @@
-// unit_tests/signUpController.test.js
 const { signUpForEvent, getAllSignups } = require("../controllers/signUpController");
 const SignUp = require("../models/signUpModel");
 const httpMocks = require("node-mocks-http");

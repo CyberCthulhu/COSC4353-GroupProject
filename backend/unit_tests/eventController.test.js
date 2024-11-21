@@ -293,26 +293,26 @@ describe("Event Controller", () => {
       });
       
 
-      it("should return a 500 status on database error", async () => {
-        mongoose.Types.ObjectId.isValid.mockReturnValue(true); // Ensure valid ID
-        Event.findByIdAndUpdate.mockRejectedValue(new Error("Database error")); // Simulate error
-      
-        const req = {
-          params: { eventId: "validId" },
-          body: { title: "Updated Event" },
-        };
-        const res = {
-          json: jest.fn(),
-          status: jest.fn().mockReturnThis(),
-        };
-      
-        await updateEventById(req, res);
-      
-        expect(res.status).toHaveBeenCalledWith(500);
-        expect(res.json).toHaveBeenCalledWith({
-          message: "Error updating event",
-          error: expect.any(Error),
-        });
-      });      
+    it("should return a 500 status on database error", async () => {
+      mongoose.Types.ObjectId.isValid.mockReturnValue(true);
+      Event.findByIdAndUpdate.mockRejectedValue(new Error("Database error"));
+
+      const req = {
+        params: { eventId: "validId" },
+        body: { title: "Updated Event" },
+      };
+      const res = {
+        json: jest.fn(),
+        status: jest.fn().mockReturnThis(),
+      };
+
+      await updateEventById(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(500);
+      expect(res.json).toHaveBeenCalledWith({
+        message: "Error updating event",
+        error: expect.any(Error),
+      });
+    });
   });
 });
