@@ -182,23 +182,26 @@ describe("User Auth Controller", () => {
     });
 
     it("should return a 500 status if an error occurs", async () => {
-      const req = {};
-      const res = {
-        json: jest.fn(),
-        status: jest.fn().mockReturnThis(),
-      };
-
-      res.cookie.mockImplementation(() => {
-        throw new Error("Cookie error");
-      });
-
-      await logout(req, res);
-
-      expect(res.status).toHaveBeenCalledWith(500);
-      expect(res.json).toHaveBeenCalledWith({
-        message: "Error signing out",
-        error: expect.any(Error),
-      });
-    });
+        const req = {};
+        const res = {
+          json: jest.fn(),
+          status: jest.fn().mockReturnThis(),
+          cookie: jest.fn().mockImplementation(() => {
+            throw new Error("Cookie error");
+          }),
+        };
+      
+        await logout(req, res);
+      
+        expect(res.cookie).toHaveBeenCalledWith("token", "", {
+          httpOnly: true,
+          expires: new Date(0),
+        });
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith({
+          message: "Error signing out",
+          error: expect.any(Error),
+        });
+      });      
   });
 });
