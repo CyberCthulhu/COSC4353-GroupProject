@@ -1,14 +1,15 @@
 const SignUp = require("../models/signUpModel");
 const History = require("../models/historyModel");
+const Event = require("../models/eventModel");
 
 const updateParticipation = async () => {
   const now = new Date();
 
   try {
-    const signUps = await SignUp.find();
+    const signUps = await SignUp.find().populate('eventId');
 
     for (const signUp of signUps) {
-      const eventDate = new Date(signUp.date);
+      const eventDate = new Date(signUp.eventId.date);
 
       if (eventDate < now) {
         const { userId, eventId } = signUp;
