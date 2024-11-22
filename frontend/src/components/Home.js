@@ -24,16 +24,16 @@ function Home() {
   }, [user]);
 
   return (
-    <Grid2 container spacing={3}>
+    <Grid2 container spacing={3} >
       <Grid2 item xs={12}>
         <Typography variant="h4" gutterBottom>
-          Welcome to Helping Hands, The United States Volunteer Network
+          Welcome to Helping Hands
         </Typography>
         {user ? (
           <Typography variant="h6">Hello, {fullName}</Typography>
         ) : (
-          <Button variant="contained" color="primary" component={Link} to="/signup">
-            Sign up
+          <Button variant="contained" color="primary" component={Link} to="/login">
+            Login
           </Button>
         )}
       </Grid2>
@@ -43,9 +43,10 @@ function Home() {
             <Typography variant="h5" gutterBottom>
               About Us
             </Typography>
+            <img src="../volunteers.webp" alt="Volunteers" style={{ width: '100%', height: 'auto' }} />
             <Typography variant="body1">
-              Helping Hands is a volunteer network that connects volunteers with
-              local non-profits in need of help.
+              Helping Hands is a nationwide volunteer network that connects volunteers with
+              local non-profits in need of help based on their skill set and attributes.
             </Typography>
           </CardContent>
         </Card>

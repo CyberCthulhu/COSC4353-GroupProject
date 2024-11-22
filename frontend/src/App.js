@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Container, Button, Avatar, Menu, MenuItem, IconButton, } from '@mui/material';
+import { AppBar, Toolbar, Typography, Container, Button, Avatar, Menu, MenuItem, IconButton, Box } from '@mui/material';
 
-import { UserProvider } from './UserContext';
+import { UserProvider, UserContext } from './UserContext';
 
 import Home from './components/Home';
 import Login from './components/Login';
@@ -17,9 +17,11 @@ import VolunteerHistory from './components/VolunteerHistory';
 import VolunteerMatchingForm from './components/VolunteerMatchingForm';
 import NotificationsMenu from './components/NotificationMenu';
 import AdminManageEvents from './components/AdminManageEvents';
-
+import UpcomingEvents from './components/UpcomingEvents';
 
 function App() {
+
+
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -35,12 +37,12 @@ function App() {
     <UserProvider>
       <Router>
 
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h6" style={{ flexGrow: 1 }}>
-              Helping Hands
-            </Typography>
-            <Button color="inherit" component={Link} to="/">Home</Button>
+        <AppBar position="static" >
+          <Toolbar sx={{ backgroundColor: '#14295a' }}>
+            <Link to="/" style={{ display: 'flex', alignItems: 'center' }}>
+              <img src="../logo.png" alt="Volunteers" style={{ width: '35%', height: 'auto' }} />
+            </Link>
+            <Box sx={{ flexGrow: 1 }} />
             <Button color="inherit" component={Link} to="/volunteer">Volunteer Events</Button>
             <Button color="inherit" component={Link} to="/login">Login</Button>
 
@@ -67,6 +69,7 @@ function App() {
             <Route path="/volunteer-history" element={<VolunteerHistory />} />
             <Route path="/volunteer-matching" element={<VolunteerMatchingForm />} />
             <Route path="/manage-events" element={<AdminManageEvents />} />
+            <Route path="/upcoming-events" element={<UpcomingEvents />} />
           </Routes>
         </Container>
       </Router>
