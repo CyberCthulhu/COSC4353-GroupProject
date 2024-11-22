@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 
 
+
 function AdminBoard() {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
@@ -24,12 +25,22 @@ function AdminBoard() {
 
   const handleGenerateCSVClick = async () => {
     try {
-      const response = await axios.get('http://localhost:4000/users-events-report');
+      const response = await axios.get('http://localhost:4000/users-events-report/csv');
       const csvData = response.data;
       const blob = new Blob([csvData], {type: 'text/csv;charset=utf-8'});
       saveAs(blob, 'users-events-report.csv');
     } catch (error) {
       console.error('Error generating CSV report:',error);
+    }
+  };
+
+  const handleGeneratePDFClick = async () => {
+    try {
+      const response = await axios.get('http://localhost:4000/users-events-report/pdf', {responseType:'blob'} );
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      saveAs(blob, 'users_events_report.pdf');
+    } catch (error) {
+      console.error('Error generating PDF report:', error);
     }
   };
 
@@ -70,7 +81,15 @@ function AdminBoard() {
             color="primary"
             onClick={handleGenerateCSVClick}
           >
-            Generate Users Events Report
+            Generate Users Events Report (CSV)
+          </Button>
+
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleGeneratePDFClick}
+          >
+            Generate Users Events Report (PDF)
           </Button>
         </Box>
       </div>

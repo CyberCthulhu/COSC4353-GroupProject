@@ -62,7 +62,7 @@ function VolunteerMatchingForm() {
     const matched = events.filter(
       (ev) =>
         ev.requiredSkills.some((skill) => profile.skills.includes(skill)) &&
-        ev.location === profile.city
+        ev.zipCode === profile.zipCode
     );
     setMatchedEvents(matched);
     setSelectedEvents([]);

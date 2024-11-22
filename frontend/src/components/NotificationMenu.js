@@ -59,11 +59,11 @@ const NotificationsMenu = () => {
       return
     }
     try {
+      navigate('/');
       setAnchorEl(null);
       const response = await axios.post("http://localhost:4000/logout")
       setUser(null)
       localStorage.removeItem('token');
-      navigate('/');
       window.alert("You have successfully logged out")
     }
     catch (error) {
