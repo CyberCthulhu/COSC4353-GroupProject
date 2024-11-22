@@ -1,200 +1,97 @@
-import React, { useState, useEffect,useContext } from "react";
-import {
-  TextField,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Select,
-  OutlinedInput,
-  Checkbox,
-  ListItemText,
-  Button,
-  TextareaAutosize,
-  Box,
-} from "@mui/material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
-import axios from "axios";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
-
-const states = [
-  { code: "AL", name: "Alabama" },
-  { code: "AK", name: "Alaska" },
-  { code: "AZ", name: "Arizona" },
-  { code: "AR", name: "Arkansas" },
-  { code: "CA", name: "California" },
-  { code: "CO", name: "Colorado" },
-  { code: "CT", name: "Connecticut" },
-  { code: "DE", name: "Delaware" },
-  { code: "FL", name: "Florida" },
-  { code: "GA", name: "Georgia" },
-  { code: "HI", name: "Hawaii" },
-  { code: "ID", name: "Idaho" },
-  { code: "IL", name: "Illinois" },
-  { code: "IN", name: "Indiana" },
-  { code: "IA", name: "Iowa" },
-  { code: "KS", name: "Kansas" },
-  { code: "KY", name: "Kentucky" },
-  { code: "LA", name: "Louisiana" },
-  { code: "ME", name: "Maine" },
-  { code: "MD", name: "Maryland" },
-  { code: "MA", name: "Massachusetts" },
-  { code: "MI", name: "Michigan" },
-  { code: "MN", name: "Minnesota" },
-  { code: "MS", name: "Mississippi" },
-  { code: "MO", name: "Missouri" },
-  { code: "MT", name: "Montana" },
-  { code: "NE", name: "Nebraska" },
-  { code: "NV", name: "Nevada" },
-  { code: "NH", name: "New Hampshire" },
-  { code: "NJ", name: "New Jersey" },
-  { code: "NM", name: "New Mexico" },
-  { code: "NY", name: "New York" },
-  { code: "NC", name: "North Carolina" },
-  { code: "ND", name: "North Dakota" },
-  { code: "OH", name: "Ohio" },
-  { code: "OK", name: "Oklahoma" },
-  { code: "OR", name: "Oregon" },
-  { code: "PA", name: "Pennsylvania" },
-  { code: "RI", name: "Rhode Island" },
-  { code: "SC", name: "South Carolina" },
-  { code: "SD", name: "South Dakota" },
-  { code: "TN", name: "Tennessee" },
-  { code: "TX", name: "Texas" },
-  { code: "UT", name: "Utah" },
-  { code: "VT", name: "Vermont" },
-  { code: "VA", name: "Virginia" },
-  { code: "WA", name: "Washington" },
-  { code: "WV", name: "West Virginia" },
-  { code: "WI", name: "Wisconsin" },
-  { code: "WY", name: "Wyoming" },
-];
+import { TextField, Button, Typography, Container, FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText, OutlinedInput, TextareaAutosize } from '@mui/material';
+import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 const skillsList = [
-  "Communication",
-  "Teamwork",
-  "Problem-solving",
-  "Organization",
-  "Leadership",
-  "Empathy",
-  "Fundraising",
-  "Networking",
+  'Communication',
+  'Teamwork',
+  'Leadership',
+  'Problem-solving',
+  'Technical Skills',
 ];
 
-const UserProfile = () => {
-  const { id: profileId } = useParams();
+const UserProfileManagement = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    fullName: "",
-    address1: "",
-    address2: "",
-    city: "",
-    state: "",
-    zipCode: "",
+    fullName: '',
+    address1: '',
+    address2: '',
+    city: '',
+    state: '',
+    zipCode: '',
     skills: [],
-    preferences: "",
+    preferences: '',
     availability: [],
   });
-
   const [errors, setErrors] = useState({});
+  const [profileId, setProfileId] = useState(null);
 
   useEffect(() => {
-    const protocol = window.location.protocol;  
-    const host = window.location.hostname;      
-    const port = '4000';                       
-    const fullBackendUrl = `${protocol}//${host}:${port}`;
-
-    // console.log(fullBackendUrl);  
-
-
     const fetchProfile = async () => {
-      try {
-        // console.log("Profile ID:", profileId);
-
-        if (!profileId || profileId.length !== 24) {
-          throw new Error("Invalid profile ID format");
+      if (user) {
+        try {
+          const response = await axios.get(`http://localhost:4000/profiles/${user.id}`);
+          const profile = response.data;
+          setForm({
+            fullName: profile.fullName,
+            address1: profile.address1,
+            address2: profile.address2,
+            city: profile.city,
+            state: profile.state,
+            zipCode: profile.zipCode,
+            skills: profile.skills,
+            preferences: profile.preferences,
+            availability: profile.availability,
+          });
+          setProfileId(profile._id);
+        } catch (error) {
+          console.error('Error fetching profile:', error);
         }
-
-        const response = await axios.get(`${fullBackendUrl}/user-profile/${profileId}`);
-        const profileData = response.data;
-
-        setForm({
-          fullName: profileData.fullName || "",
-          address1: profileData.address1 || "",
-          address2: profileData.address2 || "",
-          city: profileData.city || "",
-          state: profileData.state || "",
-          zipCode: profileData.zipCode || "",
-          skills: profileData.skills || [],
-          preferences: profileData.preferences || "",
-          availability: profileData.availability || [],
-        });
-      } catch (error) {
-        console.error("Error fetching profile:", error);
       }
     };
-    if (profileId) {
-      fetchProfile();
-    }
-  }, [profileId]);
+
+    fetchProfile();
+  }, [user]);
+
+  const validate = () => {
+    let tempErrors = {};
+    tempErrors.skills = form.skills.length > 0 ? "" : "At least one skill is required";
+    tempErrors.availability = form.availability.length > 0 ? "" : "At least one date for Availability is required";
+
+    setErrors(tempErrors);
+    return Object.values(tempErrors).every((x) => x === "");
+  };
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
   };
 
   const handleSkillsChange = (event) => {
     const {
       target: { value },
     } = event;
-    setForm({
-      ...form,
-      skills: typeof value === "string" ? value.split(",") : value,
-    });
+    setForm({ ...form, skills: typeof value === 'string' ? value.split(',') : value });
   };
 
   const handleAvailabilityChange = (newDate) => {
-    setForm((prevForm) => ({
-      ...prevForm,
-      availability: [...prevForm.availability, dayjs(newDate).format("YYYY-MM-DD")],
-    }));
+    setForm({ ...form, availability: [...form.availability, newDate.format('YYYY-MM-DD')] });
   };
 
-  const validate = () => {
-    let tempErrors = {};
-    tempErrors.fullName = form.fullName ? "" : "Full Name is required";
-    tempErrors.address1 = form.address1 ? "" : "Address 1 is required";
-    tempErrors.city = form.city ? "" : "City is required";
-    tempErrors.state = form.state ? "" : "State is required";
-    tempErrors.zipCode =
-      form.zipCode && form.zipCode.length >= 5
-        ? ""
-        : "At least 5 characters for Zip Code";
-    tempErrors.skills =
-      form.skills.length > 0 ? "" : "At least one skill is required";
-    tempErrors.availability =
-      form.availability.length > 0
-        ? ""
-        : "At least one date for Availability is required";
-
-    setErrors(tempErrors);
-    return Object.values(tempErrors).every((x) => x === "");
-  };
-
-  const HandleSubmit = async (e) => {
-    const userId = user.id;
-    console.log("User ID:", userId);
-    const protocol = window.location.protocol;  
-    const host = window.location.hostname;      
-    const port = '4000';                        
-    const fullBackendUrl = `${protocol}//${host}:${port}`;
-
-    console.log(fullBackendUrl);  
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
+      const userId = user.id;
+      const protocol = window.location.protocol;
+      const host = window.location.hostname;
+      const port = '4000';
+      const fullBackendUrl = `${protocol}//${host}:${port}`;
+
       const formData = {
         userId: userId,
         fullName: form.fullName,
@@ -208,158 +105,137 @@ const UserProfile = () => {
         availability: form.availability,
       };
 
-      console.log("Form Data:", formData);
-
       try {
         if (!profileId) {
           // Create a new profile if profileId is not present
-          const response = await axios.post(`${fullBackendUrl}/user-profile/`, formData, {
-            headers: {
-              "Content-Type": "application/json"
-            }
-          });
-          console.log("Profile created successfully:", response.data);
+          const response = await axios.post(`${fullBackendUrl}/user-profile`, formData);
+          console.log('Profile created successfully:', response.data);
         } else {
-          // Update existing profile if profileId is present
-          const response = await axios.post(`${fullBackendUrl}/user-profile/${profileId}`, formData);
-          console.log("Profile updated successfully:", response.data);
+          // Update existing profile
+          const response = await axios.put(`${fullBackendUrl}/user-profile/${profileId}`, formData);
+          console.log('Profile updated successfully:', response.data);
         }
-        navigate('/');
+        navigate('/'); // Redirect to home page after successful update
       } catch (error) {
-        console.error("Error creating/updating profile:", error);
+        console.error('Error updating profile:', error);
       }
     }
   };
 
   return (
-    <form onSubmit={HandleSubmit}>
-      <TextField
-        label="Full Name"
-        name="fullName"
-        value={form.fullName}
-        onChange={handleChange}
-        fullWidth
-        required
-        error={!!errors.fullName}
-        helperText={errors.fullName}
-        inputProps={{ maxLength: 50 }}
-      />
-
-      <TextField
-        label="Address 1"
-        name="address1"
-        value={form.address1}
-        onChange={handleChange}
-        fullWidth
-        required
-        error={!!errors.address1}
-        helperText={errors.address1}
-        inputProps={{ maxLength: 100 }}
-      />
-
-      <TextField
-        label="Address 2"
-        name="address2"
-        value={form.address2}
-        onChange={handleChange}
-        fullWidth
-        inputProps={{ maxLength: 100 }}
-      />
-
-      <TextField
-        label="City"
-        name="city"
-        value={form.city}
-        onChange={handleChange}
-        fullWidth
-        required
-        error={!!errors.city}
-        helperText={errors.city}
-        inputProps={{ maxLength: 100 }}
-      />
-
-      <FormControl fullWidth required error={!!errors.state}>
-        <InputLabel>State</InputLabel>
-        <Select
-          value={form.state}
-          name="state"
+    <Container>
+      <Typography variant="h4" gutterBottom>
+        User Profile Management
+      </Typography>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          label="Full Name"
+          name="fullName"
+          value={form.fullName}
           onChange={handleChange}
-          input={<OutlinedInput label="State" />}
-        >
-          {states.map((state) => (
-            <MenuItem key={state.code} value={state.code}>
-              {state.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      <TextField
-        label="Zip Code"
-        name="zipCode"
-        value={form.zipCode}
-        onChange={handleChange}
-        fullWidth
-        required
-        error={!!errors.zipCode}
-        helperText={errors.zipCode}
-        inputProps={{ maxLength: 9 }}
-      />
-
-      <FormControl fullWidth required error={!!errors.skills}>
-        <InputLabel>Skills</InputLabel>
-        <Select
-          multiple
-          value={form.skills}
-          onChange={handleSkillsChange}
-          input={<OutlinedInput label="Skills" />}
-          renderValue={(selected) => selected.join(", ")}
-        >
-          {skillsList.map((skill) => (
-            <MenuItem key={skill} value={skill}>
-              <Checkbox checked={form.skills.indexOf(skill) > -1} />
-              <ListItemText primary={skill} />
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      <TextareaAutosize
-        minRows={3}
-        placeholder="Preferences"
-        name="preferences"
-        value={form.preferences}
-        onChange={handleChange}
-        style={{ width: "100%", marginTop: "16px", padding: "8px" }}
-      />
-
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker
-          label="Availability"
-          value={null}
-          onChange={handleAvailabilityChange}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              fullWidth
-              required
-              error={!!errors.availability}
-              helperText={errors.availability}
-            />
-          )}
+          fullWidth
+          margin="normal"
+          required
         />
-        <ul>
-          {form.availability.map((date, index) => (
-            <li key={index}>{date}</li>
-          ))}
-        </ul>
-      </LocalizationProvider>
-
-      <Button type="submit" variant="contained" color="primary" fullWidth>
-        Submit
-      </Button>
-    </form>
+        <TextField
+          label="Address 1"
+          name="address1"
+          value={form.address1}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+        <TextField
+          label="Address 2"
+          name="address2"
+          value={form.address2}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          label="City"
+          name="city"
+          value={form.city}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+        <TextField
+          label="State"
+          name="state"
+          value={form.state}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+        <TextField
+          label="Zip Code"
+          name="zipCode"
+          value={form.zipCode}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          required
+          error={!!errors.zipCode}
+          helperText={errors.zipCode}
+          inputProps={{ maxLength: 9 }}
+        />
+        <FormControl fullWidth required error={!!errors.skills}>
+          <InputLabel>Skills</InputLabel>
+          <Select
+            multiple
+            value={form.skills}
+            onChange={handleSkillsChange}
+            input={<OutlinedInput label="Skills" />}
+            renderValue={(selected) => selected.join(", ")}
+          >
+            {skillsList.map((skill) => (
+              <MenuItem key={skill} value={skill}>
+                <Checkbox checked={form.skills.indexOf(skill) > -1} />
+                <ListItemText primary={skill} />
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <TextareaAutosize
+          minRows={3}
+          placeholder="Preferences"
+          name="preferences"
+          value={form.preferences}
+          onChange={handleChange}
+          style={{ width: "100%", marginTop: "16px", padding: "8px" }}
+        />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            label="Availability"
+            value={null}
+            onChange={handleAvailabilityChange}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                fullWidth
+                required
+                error={!!errors.availability}
+                helperText={errors.availability}
+              />
+            )}
+          />
+          <ul>
+            {form.availability.map((date, index) => (
+              <li key={index}>{date}</li>
+            ))}
+          </ul>
+        </LocalizationProvider>
+        <Button type="submit" variant="contained" color="primary" fullWidth>
+          Submit
+        </Button>
+      </form>
+    </Container>
   );
 };
 
-export default UserProfile;
+export default UserProfileManagement;

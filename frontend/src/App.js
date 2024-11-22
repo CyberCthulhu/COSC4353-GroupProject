@@ -17,7 +17,7 @@ import VolunteerHistory from './components/VolunteerHistory';
 import VolunteerMatchingForm from './components/VolunteerMatchingForm';
 import NotificationsMenu from './components/NotificationMenu';
 import AdminManageEvents from './components/AdminManageEvents';
-
+import UpcomingEvents from './components/UpcomingEvents';
 
 function App() {
 
@@ -69,6 +69,7 @@ function App() {
             <Route path="/volunteer-history" element={<VolunteerHistory />} />
             <Route path="/volunteer-matching" element={<VolunteerMatchingForm />} />
             <Route path="/manage-events" element={<AdminManageEvents />} />
+            <Route path="/upcoming-events" element={<UpcomingEvents />} />
           </Routes>
         </Container>
       </Router>

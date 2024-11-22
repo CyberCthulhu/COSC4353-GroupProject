@@ -59,6 +59,7 @@ const NotificationsMenu = () => {
       return
     }
     try {
+      setAnchorEl(null);
       const response = await axios.post("http://localhost:4000/logout")
       setUser(null)
       localStorage.removeItem('token');
@@ -94,6 +95,7 @@ const NotificationsMenu = () => {
           <MenuItem>No new notifications</MenuItem>
         )}
         <MenuItem component={Link} to="/volunteer-history">History</MenuItem>
+        <MenuItem component={Link} to="/upcoming-events">Upcoming Events</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </>

@@ -92,7 +92,6 @@ const signUpForEvent = async (req, res) => {
     const signUpResults = [];
 
     for (const eventId of eventIds) {
-      // Check if the user is already signed up for the event
       const existingSignUp = await SignUp.findOne({ userId, eventId });
 
       if (existingSignUp) {
@@ -100,7 +99,6 @@ const signUpForEvent = async (req, res) => {
         continue;
       }
 
-      // Create a new sign-up
       const newSignUp = new SignUp({ userId, eventId });
       await newSignUp.save();
       signUpResults.push({ eventId, message: "Successfully signed up for the event", signUp: newSignUp });
@@ -129,4 +127,23 @@ const getAllSignups = async (req, res) => {
   }
 };
 
-module.exports = { getAllSignups, signUpForEvent };
+const getUserSignups = async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const signUps = await SignUp.find({ userId }).populate('eventId');
+
+    if (!signUps || signUps.length === 0) {
+      return res.status(404).json({ message: "No sign-ups found for this user" });
+    }
+
+    const events = signUps.map(signUp => signUp.eventId);
+
+    return res.status(200).json(events);
+  } catch (error) {
+    console.error("Error fetching user sign-ups:", error);
+    res.status(500).json({ message: "Error fetching user sign-ups", error });
+  }
+};
+
+module.exports = { getAllSignups, signUpForEvent, getUserSignups };
