@@ -28,7 +28,7 @@ app.get("/", (req, res) => {
 });
 
 
-
+// notifies volunteers every minute and updates participation every minute
 cron.schedule('* * * * *', () => {
   console.log('Running cron job to notify volunteers...');
   notifyVolunteers(); 
