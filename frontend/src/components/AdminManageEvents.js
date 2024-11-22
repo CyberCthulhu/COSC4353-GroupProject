@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Container, Grid2, Card, CardContent, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField  } from '@mui/material';
+import { Typography, Container, Grid2, Card, CardContent, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, IconButton  } from '@mui/material';
 import axios from 'axios';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from 'react-router-dom';
 
 function AdminManageEvents() {
   const [events, setEvents] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -56,6 +59,9 @@ function AdminManageEvents() {
 
   return (
     <Container>
+      <IconButton onClick={() => navigate('/admin')}>
+        <ArrowBackIcon />
+      </IconButton>
       <Typography variant="h4" gutterBottom>
         Manage Events
       </Typography>

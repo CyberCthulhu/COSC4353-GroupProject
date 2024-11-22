@@ -1,11 +1,27 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { Typography, Button, Card, CardContent, Grid2 } from "@mui/material";
 import { UserContext } from '../UserContext';
+import axios from "axios";
 
 function Home() {
 
   const { user } = useContext(UserContext);
+  const [fullName, setFullName] = useState('');
+
+  useEffect(() => {
+    const fetchFullName = async () => {
+      if (user) {
+        try {
+          const response = await axios.get(`http://localhost:4000/profiles/user/${user.id}`);
+          setFullName(response.data.fullName);
+        } catch (error) {
+          console.error('Error fetching user:', error);
+        }
+      }
+    };
+    fetchFullName();
+  }, [user]);
 
   return (
     <Grid2 container spacing={3}>
@@ -14,7 +30,7 @@ function Home() {
           Welcome to Helping Hands, The United States Volunteer Network
         </Typography>
         {user ? (
-          <Typography variant="h6">Hello, {user.name}</Typography>
+          <Typography variant="h6">Hello, {fullName}</Typography>
         ) : (
           <Button variant="contained" color="primary" component={Link} to="/signup">
             Sign up

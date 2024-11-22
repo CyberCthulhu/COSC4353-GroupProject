@@ -17,6 +17,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 
 const states = [
@@ -86,6 +87,7 @@ const skillsList = [
 const UserProfile = () => {
   const { id: profileId } = useParams();
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     fullName: "",
     address1: "",
@@ -222,6 +224,7 @@ const UserProfile = () => {
           const response = await axios.post(`${fullBackendUrl}/user-profile/${profileId}`, formData);
           console.log("Profile updated successfully:", response.data);
         }
+        navigate('/');
       } catch (error) {
         console.error("Error creating/updating profile:", error);
       }

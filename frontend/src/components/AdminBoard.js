@@ -37,7 +37,7 @@ function AdminBoard() {
     return (
       <div>
         <Typography variant="h4" gutterBottom>
-          Admin Dashboard Page for {user.name}
+          Admin Dashboard Page
         </Typography>
 
         <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
